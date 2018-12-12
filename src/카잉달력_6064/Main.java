@@ -13,7 +13,6 @@ public class Main {
 			int end = sc.nextInt();
 			int x = sc.nextInt();
 			int y = sc.nextInt();
-			int minus = x - y;
 
 			int a = 1;
 			int b = 1;
@@ -26,70 +25,35 @@ public class Main {
 			bed = bed.divide(gcd);
 			bst = bst.multiply(bed).multiply(gcd);
 			if (start > end) {
-				System.out.println("enter!@#");
-				while (a != start + 1 || b != end + 1) {
-					if (Integer.parseInt(bst.toString()) < count) {
+				count += (y - b);
+				a += (y - b);
+				b += (y - b);
+				while (Integer.parseInt(bst.toString()) >= count) {
+					if(a == x) {
+						find = true;
 						break;
 					}
-					if (a - b == minus) {
-						while (a != x || b != y) {
-							a++;
-							b++;
-							count++;
-							System.out.println(a + " " + b + " " + count);
-							find = true;
-							continue;
-						}
-						break;
-					}
-
-					int c = (end - b + 1);
-					a += c;
-					if(a == start) {
-						a++;
-						b++;
-						count++;
-					}
+					a += end;
+					count += end;
 					if (a > start) {
 						a -= start;
 					}
-					
-					count += c;
-					System.out.println(a + " " + b + " " + count);
-
 				}
-			} else if (start <= end) {
-				System.out.println("enter");
-				while (a != start + 1 || b != end + 1) {
-					if (Integer.parseInt(bst.toString()) < count) {
+			} else if (start < end) {
+				count += (x - a);
+				b += (x - a);
+				a += (x - a);
+				while (Integer.parseInt(bst.toString()) >= count) {
+					
+					if(b == y) {
+						find = true;
 						break;
 					}
-					if (a - b == minus) {
-						while (a != x || b != y) {
-							a++;
-							b++;
-							count++;
-							System.out.println(a + " " + b + " " + count);
-							find = true;
-							continue;
-						}
-						break;
-					}
-
-					int c = (start - a + 1);
-					b += c;
-					if(b == end) {
-						a++;
-						b++;
-						count++;
-					}
+					b += start;
+					count += start;
 					if (b > end) {
 						b -= end;
 					}
-					a = 1;
-					count += c;
-					 System.out.println(a + " " + b + " " + count);
-
 				}
 			}
 			if (find) {
