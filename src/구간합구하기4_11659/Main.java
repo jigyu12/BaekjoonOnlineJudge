@@ -12,7 +12,7 @@ public class Main {
 			String[] nm = br.readLine().split(" ");
 			
 			int n = Integer.parseInt(nm[0]);
-			int m = Integer.parseInt(nm[1]);
+			int m = Integer.parseInt(nm[1]); 
 			int[] sumAr = new int[n];
 			int sum = 0;
 			String[] s = br.readLine().split(" ");
