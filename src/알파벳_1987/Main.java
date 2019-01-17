@@ -20,7 +20,6 @@ public class Main {
 		}
 		
 		if(check[alpha]) {
-//			System.out.println(visit);
 			if(visit-1 > ans) {
 				ans = visit-1;
 			}
@@ -29,13 +28,9 @@ public class Main {
 		check[alpha] = true;
 		
 		find(x-1,y,visit+1,check);
-		
 		find(x+1,y,visit+1,check);
-	
 		find(x,y-1,visit+1,check);
-	
 		find(x,y+1,visit+1,check);
-
 	}
 
 	public static void main(String[] args) {
@@ -53,11 +48,9 @@ public class Main {
 					map[i][j] = s.charAt(j-1);
 				}
 			}
-
 			check[0] = true;
 			find(1,1,1,check);
 			System.out.println(ans);
 		} catch (IOException e) {}
-
 	}
 }

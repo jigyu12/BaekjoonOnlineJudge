@@ -1,4 +1,4 @@
-package 전화번호목록_5052;
+package 전화번호목록_5052no;
 
 import java.io.BufferedReader;
 import java.io.IOException;
