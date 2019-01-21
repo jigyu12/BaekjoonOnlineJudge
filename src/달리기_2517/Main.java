@@ -55,22 +55,19 @@ public class Main {
 			ans = new int[num];
 			comp = new ArrayList<>();
 			for(int i = 0; i < num; i++) {
-				int a = Integer.parseInt(br.readLine());
-				ar[i] = a;
+				ar[i] = Integer.parseInt(br.readLine());
 			}
-			
 			comp.add(ar[0]);
-			
-			for(int i = 1; i < num; i++) {	
-				search(0,i-1,ar[i]);
-			}
 			ans[0] = 1;
-			for(int i = 0; i < num; i++) {
+			for(int i = 0; i < num; i++) {	
+				if(i == 0) {
+					bw.write(ans[i]+"\n");
+					continue;
+				}
+				search(0,i-1,ar[i]);
 				bw.write(ans[i]+"\n");
-
-//				System.out.println(ans[i]);
 			}
-			bw.flush();
+			bw.flush();	
 		} 
 		catch (NumberFormatException | IOException e) {}
 	}
