@@ -30,74 +30,43 @@ public class Main {
 				sumB += b[i];
 				sb[i] = sumB;
 			}
-			
 			int count = 0;
 			for(int i = 0; i < lenB; i++) {
 				for(int k = 0; k < lenA; k++) {
+					if(b[i] + a[k] == num) {
+						count++;
+					}
+				}
+			}
+			
+			
+			
+				for(int k = 1; k < lenA; k++) {
 					for(int j = k; j < lenA; j++) {
 						int comp = 0;
-						if(k == 0) {
-							comp = sa[j] + b[i];
+						for(int m = 1; m < lenB; m++) {
+							for(int w = m; w < lenB; w++) {
+								if(k != 0){
+									comp = sa[j] - sa[k-1] + sb[w] - sb[m-1];
+									if(comp == num) {
+										System.out.println(j+ " " + (k-1) + " " + w + " " + (m-1));
+										count++;
+										break;
+									}
+									else if(comp > num) {
+										break;
+									}
+								}
+							}
 							
-							if(comp == num) {
-								System.out.println(j + " " + i);
-								count++;
-								break;
-							}
-							else if(comp > num) {
-								break;
-							}
-						}
-						
-						else {
-							comp = sa[j] - sa[k-1] + b[i];
-							
-							if(comp == num) {
-								System.out.println(j+ " " + (k-1) + " " + i);
-								count++;
-								break;
-							}
-							else if(comp > num) {
-								break;
-							}
 						}
 					}
 					
 				}
 				System.out.println("------------------");
-			}
+			
 			for(int i = 0; i < lenA; i++) {
-				for(int k = 0; k < lenB; k++) {
-					for(int j = k; j < lenB; j++) {
-						int comp = 0;
-						if(k == 0) {
-							comp = sb[j] + a[i];
-							
-							if(comp == num) {
-								System.out.println(j + " " + i);
-								count++;
-								break;
-							}
-							else if(comp > num) {
-								break;
-							}
-						}
-						
-						else {
-							comp = sb[j] - sb[k-1] + a[i];
-							
-							if(comp == num) {
-								System.out.println(j+ " " + (k-1) + " " + i);
-								count++;
-								break;
-							}
-							else if(comp > num) {
-								break;
-							}
-						}
-					}
-					
-				}
+				
 			}
 
 			System.out.println(count);
