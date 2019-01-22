@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class Main {
-	
+	 
 	private static ArrayList<Integer>[] ar;
 	private static int[] depth;
 
