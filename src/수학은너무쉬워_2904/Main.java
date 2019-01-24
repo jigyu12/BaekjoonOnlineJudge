@@ -15,10 +15,12 @@ public class Main {
 	static class Div{
 		int num;
 		int count;
+		boolean visit;
 		
 		public Div(int num, int count) {
 			this.num = num;
 			this.count = count;
+			this.visit = false;
 		}
 
 		@Override
@@ -77,6 +79,7 @@ public class Main {
 						}
 						else {
 							int c = hm.get(j);
+							hm.remove(j,c);
 							c += count;
 							hm.put(j,c);
 						}
@@ -94,43 +97,49 @@ public class Main {
 				int key = it.next();
 				int v = hm.get(key);
 				v /= n;
-				hm.put(key, v);
-			}
 			
+					hm.put(key, v);
+
+			}
 			int ans = 0;
 			for(int i = 0; i < n; i++) {
 				it = hm.keySet().iterator();
 				while(it.hasNext()) {
 					int key = it.next();
 					int v = hm.get(key);
+					if(v == 0) {
+						continue;
+					}
+					boolean in = false;
 					for(int j = 0; j < ar[i].size(); j++) {
-						if(ar[i].get(j).num == key) {
+						if(!ar[i].get(j).visit && ar[i].get(j).num == key) {
+							in = true;
+							ar[i].get(j).visit = true;
+//							System.out.println(ar[i].get(j).num + " " + key);
+//							System.out.println(ar[i].get(j).count + " " + v);
 							if(ar[i].get(j).count < v) {
 								ans += v - ar[i].get(j).count;
-								
 							}
-							break;
 						}
-						else {
-							ans += v;
-							break;
-						}
+					}
+					if(!in) {
+						ans += v;
 					}
 				}
 			}
-			
-			System.out.println(ans);
-
-			for(int i = 0; i < n; i++) {
-				int num = map[i];
-				for(int j = 0; j < ar[i].size(); j++) {
-					System.out.println(ar[i].get(j));
+			it = hm.keySet().iterator();
+			int cal = 1;
+			while(it.hasNext()) {
+				int key = it.next();
+				int v = hm.get(key);
+				if(v == 0) {
+					continue;
 				}
-				System.out.println();
+				cal *= (key * v);
 			}
+			System.out.println(cal + " " + ans);
+
 		} catch (NumberFormatException | IOException e) {
 		}
-		
 	}
-
 }
