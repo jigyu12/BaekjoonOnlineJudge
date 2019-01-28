@@ -56,7 +56,6 @@ public class Main {
 				ar[i] = new ArrayList<Div>();
 			}
 			Arrays.sort(map);
-			int max = 0;
 			HashMap<Integer,Integer> hm = new HashMap<Integer,Integer>();
 			for(int i = 0; i < n; i++) {
 				int num = map[i];
@@ -79,7 +78,6 @@ public class Main {
 						}
 						else {
 							int c = hm.get(j);
-							hm.remove(j,c);
 							c += count;
 							hm.put(j,c);
 						}
@@ -88,18 +86,17 @@ public class Main {
 						break;
 					}
 				}
-				if(max < ar[i].size()) {
-					max = ar[i].size();
-				}
 			}
+//			for(int i = 0; i < ar.length; i++) {
+//					System.out.println(ar[i]);
+//			}
 			Iterator<Integer> it = hm.keySet().iterator();
 			while(it.hasNext()) {
 				int key = it.next();
 				int v = hm.get(key);
 				v /= n;
-			
-					hm.put(key, v);
-
+//				System.out.println(key + " " + v);
+				hm.put(key, v);
 			}
 			int ans = 0;
 			for(int i = 0; i < n; i++) {
@@ -115,8 +112,6 @@ public class Main {
 						if(!ar[i].get(j).visit && ar[i].get(j).num == key) {
 							in = true;
 							ar[i].get(j).visit = true;
-//							System.out.println(ar[i].get(j).num + " " + key);
-//							System.out.println(ar[i].get(j).count + " " + v);
 							if(ar[i].get(j).count < v) {
 								ans += v - ar[i].get(j).count;
 							}
@@ -128,14 +123,14 @@ public class Main {
 				}
 			}
 			it = hm.keySet().iterator();
-			int cal = 1;
+			long cal = 1;
 			while(it.hasNext()) {
-				int key = it.next();
-				int v = hm.get(key);
+				long key = it.next();
+				long v = hm.get((int)key);
 				if(v == 0) {
 					continue;
 				}
-				cal *= (key * v);
+				cal *= (long)(key * v);
 			}
 			System.out.println(cal + " " + ans);
 
