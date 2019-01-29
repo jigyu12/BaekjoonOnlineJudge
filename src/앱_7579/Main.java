@@ -27,7 +27,7 @@ public class Main {
 				sum += cost[i];
 			}
 			for(int i = 1; i <= n; i++) {
-				for(int j = 1; j <= sum; j++) {
+				for(int j = 2; j <= sum; j++) {
 					if(j < cost[i-1]) {
 						dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-1]);
 					}
