@@ -6,66 +6,65 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class Main {
 
 	private static int[] ar;
 	private static int[] ans;
 	private static int num;
-	private static ArrayList<Integer> comp;
-	
-	private static void search(int s, int e,int num) {
-		int start = s;
-		int end = e;
-		int mid = 0;
-		
-//		for(int i = 0; i <= e; i++) {
-//			System.out.print(comp[i] + " ");
-//		}
-//		System.out.println();
-		
-		while(start <= end) {
-			mid = (start + end) / 2;
-			
-			if(comp.get(mid) > num) {
-				end = mid-1;
-			}
-			else{
-				start = mid + 1;
-			}		
-		}
-//		System.out.println(mid + " " + start);
+	private static BufferedWriter bw;
 
-		comp.add(start, num);
-//		for(int i = 0; i < comp.size(); i++) {
-//			System.out.print(comp.get(i) + " ");
-//		}
-//		System.out.println();
-//		System.out.println(start);
-//		System.out.println("------------");
-		ans[e+1] = e - start + 2;
+	
+	private static void search(int s, int e,int[] ar) {
+		
+		if(e == s) {
+			return ;
+		}
+		
+		else if((e - s) == 1) {
+			if(ar[e] < ar[s]) {
+				int temp = ar[s];
+				ar[s] = ar[e];
+				ar[e] = temp;
+			}
+			return;
+		}
+		
+		else if((e-s) > 1) {
+			int mid = (s + e) / 2;
+			search(s,mid,ar);
+			search(mid+1,e,ar);
+		}
+		
+		for(int i = 0; i < e; i++) {
+			for(int j = 0; j < e; j++) {
+				
+			}
+		}
+		
+		for(int i = 0; i < ar.length; i++) {
+			System.out.print(ar[i] + " ");
+		}
+		System.out.println();
+		
+
 	}
 	
 	public static void main(String[] args) {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		try {
 			num = Integer.parseInt(br.readLine());
 			ar = new int[num];
 			ans = new int[num];
-			comp = new ArrayList<>();
 			for(int i = 0; i < num; i++) {
 				ar[i] = Integer.parseInt(br.readLine());
 			}
-			comp.add(ar[0]);
 			ans[0] = 1;
 			for(int i = 0; i < num; i++) {	
-				if(i == 0) {
-					bw.write(ans[i]+"\n");
-					continue;
-				}
-				search(0,i-1,ar[i]);
-				bw.write(ans[i]+"\n");
+//				search(0,i,ar,ar[i]);
 			}
 			bw.flush();	
 		} 

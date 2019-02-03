@@ -15,14 +15,15 @@ public class Main {
 		int end = ans.size()-1;
 		int mid = 0;
 		
-		while(start <= end) {
+		while(start < end) {
 			mid = (start + end) / 2;
 //			System.out.println(mid);
-			if(ans.get(mid) > n) {
-				end = mid - 1;
+			if(ans.get(mid) < n) {
+				start = mid + 1;
+			
 			}
 			else {
-				start = mid + 1;
+				end = mid - 1;
 			}
 		}
 		
