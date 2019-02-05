@@ -35,7 +35,6 @@ public class Main {
 				for(int j = 0; j < test; j++) {
 					if(indegree[j] == 0) {
 						qu.add(j);
-						
 						indegree[j] = -1;
 					}
 				}
