@@ -8,7 +8,9 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Main {
 
@@ -101,28 +103,25 @@ public class Main {
 
 				int a = end;
 				int ans = first;
-				while (ans <= first) {
-					a = end;
-					int min = 987654321;
-					int minvertex = -1;
-					for(int i = 0; i < dist.length; i++) {
-						if(min > dist[i] + map[i][end]) {
-							min = dist[i] + map[i][end];
-							minvertex = i;
-							map[i][end] = 987654321;
-						}
-					}
 
-					if(min > first) {
-						break;
+				
+				int min = 987654321;
+				
+				Queue<Integer> qu = new LinkedList<>();
+
+				for (int i = 0; i < dist.length; i++) {
+					if(end == i) {
+						continue;
 					}
-					while (true) {
-						if (minvertex == -1) {
-							break;
-						}
-						if(a == minvertex) {
-							break;
-						}
+					if (first == dist[i] + map[i][end]) {
+						qu.add(i);
+						map[i][end] = 987654321;
+					}
+				}
+				while (!qu.isEmpty()) {
+					a = end;
+					int minvertex = qu.poll();
+					while (minvertex >= 0) {
 						for (int i = 0; i < ar[minvertex].size(); i++) {
 							if (ar[minvertex].get(i).end == a) {
 								ar[minvertex].remove(i);
@@ -132,7 +131,6 @@ public class Main {
 						a = minvertex;
 						minvertex = path[minvertex];
 					}
-					ans = min;
 				}
 				ans = dijkstra(start);
 				if (ans == 987654321) {
