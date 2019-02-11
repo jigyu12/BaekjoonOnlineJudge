@@ -3,9 +3,63 @@ package 두배열의합_2143;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
 public class Main {
+
+	private static int[] sa;
+	private static int[] a;
+	private static int[] sb;
+	private static int[] b;
+	private static int[] ssa;
+	private static int[] ssb;
+
+	private static int initSa(int start, int end, int node) {
+		if (start == end) {
+			return sa[node] = a[start];
+		}
+
+		int mid = (start + end) / 2;
+
+		return sa[node] = initSa(start, mid, node * 2) + initSa(mid + 1, end, node * 2 + 1);
+	}
+
+	private static int initSb(int start, int end, int node) {
+		if (start == end) {
+			return sb[node] = b[start];
+		}
+
+		int mid = (start + end) / 2;
+
+		return sb[node] = initSb(start, mid, node * 2) + initSb(mid + 1, end, node * 2 + 1);
+	}
+
+	private static int sumA(int start, int end, int left, int right, int node) {
+		if (right < start || end < left) {
+			return 0;
+		}
+
+		if (left <= start && end <= right) {
+			return sa[node];
+		}
+
+		int mid = (start + end) / 2;
+
+		return sumA(start, mid, left, right, node * 2) + sumA(mid + 1, end, left, right, node * 2 + 1);
+	}
+
+	private static int sumB(int start, int end, int left, int right, int node) {
+		if (right < start || end < left) {
+			return 0;
+		}
+
+		if (left <= start && end <= right) {
+			return sb[node];
+		}
+
+		int mid = (start + end) / 2;
+
+		return sumB(start, mid, left, right, node * 2) + sumB(mid + 1, end, left, right, node * 2 + 1);
+	}
 
 	public static void main(String[] args) {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -13,63 +67,59 @@ public class Main {
 			int num = Integer.parseInt(br.readLine());
 			int lenA = Integer.parseInt(br.readLine());
 			String sA[] = br.readLine().split(" ");
-			int sa[] = new int[lenA];
-			int a[] = new int[lenA];
+			sa = new int[lenA * 5];
+			a = new int[lenA];
+			ssa = new int[lenA * 5];
 			int lenB = Integer.parseInt(br.readLine());
 			String sB[] = br.readLine().split(" ");
-			int b[] = new int[lenB];
-			int sb[] = new int[lenB];
-			int sumA = 0, sumB = 0;
-			for(int i = 0; i < lenA; i++) {
+			b = new int[lenB];
+			sb = new int[lenB * 5];
+			ssb = new int[lenB * 5];
+			int ai = 0;
+			int bi = 0;
+			for (int i = 0; i < lenA; i++) {
 				a[i] = Integer.parseInt(sA[i]);
-				sumA += a[i];
-				sa[i] = sumA;
+				ssa[ai++] = a[i];
 			}
-			for(int i = 0; i < lenB; i++) {
+			for (int i = 0; i < lenB; i++) {
 				b[i] = Integer.parseInt(sB[i]);
-				sumB += b[i];
-				sb[i] = sumB;
+				ssb[bi++] = b[i];
 			}
+			initSa(0, a.length - 1, 1);
+			initSb(0, b.length - 1, 1);
+
+			for (int i = 0; i < a.length-1; i++) {
+				for (int j = i + 1; j < a.length; j++) {
+					ssa[ai++] = sumA(0, a.length - 1, i, j, 1);
+				}
+			}
+
+			for (int i = 0; i < b.length-1; i++) {
+				for (int j = i + 1; j < b.length; j++) {
+					ssb[bi++] = sumB(0, b.length - 1, i, j, 1);
+				}
+			}
+//			for(int i = 0; i < ssa.length; i++) {
+//				System.out.print(ssa[i] + " ");
+//			}
+//			System.out.println();
+//			for(int i = 0; i < ssb.length; i++) {
+//				System.out.print(ssb[i] + " ");
+//			}
+//			System.out.println();
+
 			int count = 0;
-			for(int i = 0; i < lenB; i++) {
-				for(int k = 0; k < lenA; k++) {
-					if(b[i] + a[k] == num) {
+			for (int i = 0; i < ai; i++) {
+				for (int j = 0; j < bi; j++) {
+//					System.out.println(ssa[i] + " " + ssb[j]);
+					if (ssa[i] + ssb[j] == num) {
 						count++;
 					}
 				}
 			}
-			
-			
-			
-				for(int k = 1; k < lenA; k++) {
-					for(int j = k; j < lenA; j++) {
-						int comp = 0;
-						for(int m = 1; m < lenB; m++) {
-							for(int w = m; w < lenB; w++) {
-								if(k != 0){
-									comp = sa[j] - sa[k-1] + sb[w] - sb[m-1];
-									if(comp == num) {
-										System.out.println(j+ " " + (k-1) + " " + w + " " + (m-1));
-										count++;
-										break;
-									}
-									else if(comp > num) {
-										break;
-									}
-								}
-							}
-							
-						}
-					}
-					
-				}
-				System.out.println("------------------");
-			
-			for(int i = 0; i < lenA; i++) {
-				
-			}
 
 			System.out.println(count);
-		} catch (NumberFormatException | IOException e) {}
+		} catch (NumberFormatException | IOException e) {
+		}
 	}
 }
