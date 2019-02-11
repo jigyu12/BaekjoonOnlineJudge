@@ -70,7 +70,7 @@ public class Main {
 				ar = new ArrayList[num+1];
 				real = new ArrayList[num+1];
 				dist = new int[num+1];
-				input = new int[num+1];
+				input = new int[num];
 				map = new int[num+1];
 				pq = new PriorityQueue<Node>(new Comparator<Node>() {
 					@Override
