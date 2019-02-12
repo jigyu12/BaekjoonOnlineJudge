@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 
 public class Main {
@@ -40,7 +42,7 @@ public class Main {
 			return 0;
 		}
 		
-		if(start <= left && right <= end) {
+		if(left <= start && end <= right) {
 			return sa[node];
 		}
 		
@@ -54,7 +56,7 @@ public class Main {
 			return 0;
 		}
 		
-		if(start <= left && right <= end) {
+		if(left <= start && end <= right) {
 			return sb[node];
 		}
 		
@@ -74,8 +76,8 @@ public class Main {
 			String sB[] = br.readLine().split(" ");
 			b = new int[lenB];
 			sb = new int[lenB * 4];
-			ssa = new int[lenA * 4];
-			ssb = new int[lenB * 4];
+			ssa = new int[lenA * lenA + 1];
+			ssb = new int[lenB * lenB + 1];
 			int ai = 0;
 			int bi = 0;
 			for(int i = 0; i < lenA; i++) {
@@ -99,19 +101,42 @@ public class Main {
 					ssb[bi++] = sumB(0,b.length-1,i,j,1);
 				}
 			}
-			
-			int count = 0;
-			for(int i = 0; i < ai+1; i++) {
-				for(int j = 0; j < bi+1; j++) {
-					System.out.println(ssa[i] + " " + ssb[j]);
-					if(ssa[i] + ssb[j] == num) {
-						
-						count++;
+			Arrays.sort(ssa,0,ai);
+			Arrays.sort(ssb,0,bi);
+
+			long count = 0;
+			int index = bi-1;
+			int comp = ssb[bi-1];
+			long cal = 0;
+			for(int i = 0; i < ai; i++) {
+				if(i >= 1) {
+					if(ssa[i] == ssa[i-1]) {
+						count += cal;
+						continue;
+					}
+					else {
+						cal = 0;
 					}
 				}
+				for(int j = index; j >= 0; j--) {
+					if(ssa[i] + ssb[j] > num) {
+						continue;
+					}
+					else if(ssa[i] + ssb[j] == num) {
+						count++;
+						cal++;
+						if(comp > ssb[j]) {
+							comp = ssb[j];
+							index = j;
+						}
+						continue;
+					}
+					else if(ssa[i] + ssb[j] < num){
+						break;
+					}
+					
+				}
 			}
-			
-
 			System.out.println(count);
 		} catch (NumberFormatException | IOException e) {}
 	}
