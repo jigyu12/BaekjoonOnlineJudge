@@ -41,6 +41,7 @@ public class Main {
 
 	private static int dijkstra(int s) {
 		int start = s;
+		Arrays.fill(path, -1);
 		Arrays.fill(dist, 987654321);
 		dist[start] = 0;
 		Node no = new Node(start, dist[start]);
@@ -56,7 +57,6 @@ public class Main {
 				}
 			}
 		}
-
 		return dist[end];
 	}
 
@@ -78,7 +78,6 @@ public class Main {
 				dist = new int[n];
 				path = new int[n];
 				map = new int[n][n];
-				Arrays.fill(path, -1);
 				pq = new PriorityQueue<Node>(new Comparator<Node>() {
 					@Override
 					public int compare(Node arg0, Node arg1) {
@@ -100,13 +99,15 @@ public class Main {
 				}
 
 				int first = dijkstra(start);
+				
+//				for (int i = 0; i < dist.length; i++) {
+//					System.out.print(dist[i] + " ");
+//				}
+//				System.out.println();
 
 				int a = end;
 				int ans = first;
 
-				
-				int min = 987654321;
-				
 				Queue<Integer> qu = new LinkedList<>();
 
 				for (int i = 0; i < dist.length; i++) {
@@ -132,8 +133,13 @@ public class Main {
 						minvertex = path[minvertex];
 					}
 				}
+		
 				ans = dijkstra(start);
-				if (ans == 987654321) {
+//				for (int i = 0; i < dist.length; i++) {
+//					System.out.print(dist[i] + " ");
+//				}
+//				System.out.println();
+				if (ans >= 987654321) {
 					bw.write("-1\n");
 				} else {
 					bw.write(ans + "\n");

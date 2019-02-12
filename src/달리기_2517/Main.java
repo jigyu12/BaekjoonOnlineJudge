@@ -17,38 +17,21 @@ public class Main {
 	private static BufferedWriter bw;
 
 	
-	private static void search(int s, int e,int[] ar) {
+	private static void search(int s, int e, int num) {
 		
-		if(e == s) {
-			return ;
-		}
+		int start = s;
+		int end = e;
+		int mid = 0;
 		
-		else if((e - s) == 1) {
-			if(ar[e] < ar[s]) {
-				int temp = ar[s];
-				ar[s] = ar[e];
-				ar[e] = temp;
+		while(start <= end) {
+			mid = (start + end) / 2;
+			if(ar[mid] > num) {
+				start = mid + 1;
 			}
-			return;
-		}
-		
-		else if((e-s) > 1) {
-			int mid = (s + e) / 2;
-			search(s,mid,ar);
-			search(mid+1,e,ar);
-		}
-		
-		for(int i = 0; i < e; i++) {
-			for(int j = 0; j < e; j++) {
-				
+			else {
+				end = mid - 1;
 			}
 		}
-		
-		for(int i = 0; i < ar.length; i++) {
-			System.out.print(ar[i] + " ");
-		}
-		System.out.println();
-		
 
 	}
 	
@@ -57,14 +40,14 @@ public class Main {
 		bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		try {
 			num = Integer.parseInt(br.readLine());
-			ar = new int[num];
-			ans = new int[num];
+			ar = new int[500000];
+			ans = new int[500000];
 			for(int i = 0; i < num; i++) {
 				ar[i] = Integer.parseInt(br.readLine());
 			}
 			ans[0] = 1;
 			for(int i = 0; i < num; i++) {	
-//				search(0,i,ar,ar[i]);
+				
 			}
 			bw.flush();	
 		} 
