@@ -27,7 +27,6 @@ public class Main {
 					Arrays.fill(min[i], 200000000);
 				}
 			}
-			//max ±¸ÇÏ±â
 			for(int i = 0; i < num-1; i++) {
 				for(int j = 0; j < 3; j++) {
 					switch(j) {
