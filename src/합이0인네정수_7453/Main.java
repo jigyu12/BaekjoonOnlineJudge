@@ -30,23 +30,38 @@ public class Main {
 					sum2[index++] = map[2][i] + map[3][j];
 				}
 			}
-			for(int j = 0; j < sum1.length; j++) {
-				System.out.print(sum1[j] + " ");
-			}
-			System.out.println();
+			Arrays.sort(sum1);
+			Arrays.sort(sum2);
 			
-			for(int j = 0; j < sum2.length; j++) {
-				System.out.print(sum2[j] + " ");
+			int k = sum2.length-1;
+			long count = 0;
+			long cal = 0;
+			for(int i = 0; i < sum1.length; i++) {
+				if(i > 0) {
+					if(sum1[i] == sum1[i-1]) {
+						count += cal;
+						continue;
+					}
+					else {
+						cal = 0;
+					}
+				}
+				for(; k >= 0; k--) {
+					if(sum1[i] + sum2[k] > 0) {
+						continue;
+					}
+					else if(sum1[i] + sum2[k] < 0) {
+						break;
+					}
+					else {
+						cal++;
+					}
+					
+				}
+				count += cal;
+				
 			}
-			System.out.println();
-			
-//			for(int i = 0; i < 4; i++) {
-//				for(int j = 0; j < num; j++) {
-//					System.out.print(map[i][j] + " ");
-//				}
-//				System.out.println();
-//			}
-//			System.out.println();
+			System.out.println(count);
 		} catch (NumberFormatException | IOException e) {}
 	}
 }
