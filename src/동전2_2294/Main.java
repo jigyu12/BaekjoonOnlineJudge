@@ -14,41 +14,28 @@ public class Main {
 			int n = Integer.parseInt(s[0]);
 			int k = Integer.parseInt(s[1]);
 			int[] coin = new int[n];
+			int[] cnt = new int[k+1];
+			for(int i = 1; i < k+1; i++) {
+				cnt[i] = 2000000000;
+			}
 			for(int i = 0; i < n; i++) {
 				coin[i] = Integer.parseInt(br.readLine());
 			}
 			Arrays.sort(coin);
-			int ans = 2000000000;
-			for(int i = coin.length-1; i >= 0; i--) {
-				if(k == 0) {
-					break;
-				}
-				int cal = k;
-				int count = 0;
-				for(int j = i; j >= 0; j--) {
-					if(cal >= coin[j]) {
-						if(cal % coin[j] == 0) {
-							count += (cal / coin[j]);
-							if(ans > count) {
-								ans = count;
-							}
-							break;
-						}
-						else {
-							int add = cal / coin[j];
-							cal -= (coin[j] * add);
-							count += add;
-						}
+			for(int i = 0; i < n; i++) {
+				for(int j = coin[i]; j < k+1; j++) {
+					if(cnt[j] > cnt[j-coin[i]] + 1) {
+						cnt[j] = cnt[j-coin[i]] + 1;
 					}
 				}
+				
 			}
-			if(ans < 2000000000) {
-				System.out.println(ans);
-			}
-			else {
+			if(cnt[k] == 2000000000) {
 				System.out.println("-1");
 			}
-			
+			else {
+				System.out.println(cnt[k]);
+			}
 		} catch (IOException e) {
 		}
 	}
