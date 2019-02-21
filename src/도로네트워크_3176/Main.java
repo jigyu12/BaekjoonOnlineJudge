@@ -64,6 +64,7 @@ public class Main {
 		}
 		for(int i = 0; i <= pk; i++) {
 			Arrays.fill(min[i], 10000001);
+			Arrays.fill(max[i], -1);
 		}
 		for(int i = 0; i < num-1; i++) {
 			String[] s = br.readLine().split(" ");
@@ -82,8 +83,8 @@ public class Main {
 		for(int i = 1; i <= pk; i++) {
 			for(int j = 1; j <= num; j++) {
 				parent[i][j] = parent[i-1][parent[i-1][j]];
-				min[i][j] = min[i-1][min[i-1][parent[i-1][j]]];
-				max[i][j] = max[i-1][max[i-1][parent[i-1][j]]];
+				min[i][j] = Math.min(min[i-1][j], min[i-1][parent[i-1][j]]);
+				max[i][j] = Math.max(max[i-1][j], max[i-1][parent[i-1][j]]);
 			}
 		}
 		
