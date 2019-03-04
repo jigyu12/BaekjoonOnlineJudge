@@ -36,6 +36,10 @@ public class Main {
 					t[index] = t[index-2] - q[index] * t[index-1];
 					index++;
 				}
+				for(int j = 0; j < index; j++) {
+					System.out.print(s[j] + " ");
+				}
+				System.out.println();
 				if(k % c == 0) {
 					bw.write("IMPOSSIBLE\n");
 					continue;
