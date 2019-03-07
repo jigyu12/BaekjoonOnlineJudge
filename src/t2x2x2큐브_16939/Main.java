@@ -113,7 +113,6 @@ public class Main {
 		
 		
 		if(cal == 6) {
-//			System.out.println("wul");
 			ans = 1;
 		}
 	}
@@ -144,7 +143,6 @@ public class Main {
 		widthU.addLast(n);
 
 		if(cal == 6) {
-//			System.out.println("wur");
 			ans = 1;
 		}
 	}
@@ -175,7 +173,6 @@ public class Main {
 		widthD.addFirst(n);
 		
 		if(cal == 6) {
-//			System.out.println("wdl");
 			ans = 1;
 		}
 	}
@@ -206,7 +203,6 @@ public class Main {
 		widthD.addLast(n);
 		
 		if(cal == 6) {
-//			System.out.println("wdr");
 			ans = 1;
 		}
 	}
@@ -237,7 +233,6 @@ public class Main {
 		heightL.addFirst(n);
 		
 		if(cal == 6) {
-//			System.out.println("hlu");
 			ans = 1;
 		}
 	}
@@ -269,7 +264,6 @@ public class Main {
 		
 		
 		if(cal == 6) {
-//			System.out.println("hld");
 			ans = 1;
 		}
 	}
@@ -300,7 +294,6 @@ public class Main {
 		heightR.addFirst(n);
 		
 		if(cal == 6) {
-//			System.out.println("hru");
 			ans = 1;
 		}
 	}
@@ -363,7 +356,6 @@ public class Main {
 		
 
 		if(cal == 6) {
-//			System.out.println("wul");
 			ans = 1;
 		}
 	}
@@ -394,7 +386,6 @@ public class Main {
 		depthF.addLast(n);
 
 		if(cal == 6) {
-//			System.out.println("wur");
 			ans = 1;
 		}
 	}
@@ -426,7 +417,6 @@ public class Main {
 
 		
 		if(cal == 6) {
-//			System.out.println("wul");
 			ans = 1;
 		}
 	}
@@ -457,7 +447,6 @@ public class Main {
 		depthB.addLast(n);
 
 		if(cal == 6) {
-//			System.out.println("wur");
 			ans = 1;
 		}
 	}
