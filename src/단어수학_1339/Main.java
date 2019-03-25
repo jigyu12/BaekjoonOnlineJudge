@@ -45,9 +45,11 @@ public class Main {
 		Alphabet[] ar = new Alphabet[26];
 		int[] convert = new int[26];
 		count = new int[26][8];
+		
 		for(int i = 0; i < 26; i++) {
 			ar[i] = new Alphabet(i);
 		}
+		
 		Arrays.fill(convert,-1);
 		int num = Integer.parseInt(br.readLine());
 		String[] input = new String[num];

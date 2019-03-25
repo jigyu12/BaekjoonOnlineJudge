@@ -40,7 +40,6 @@ public class Main {
 		countmap[x][y] = 0;
 		while (!qu.isEmpty()) {
 			Node n = qu.poll();
-			System.out.println(qu.size());
 			int noX = n.x;
 			int noY = n.y;
 
