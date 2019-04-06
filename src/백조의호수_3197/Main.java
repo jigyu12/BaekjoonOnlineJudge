@@ -51,7 +51,6 @@ public class Main {
 		int c = Integer.parseInt(rc[1]);
 		
 		int[][] map = new int[r + 2][c + 2];
-		boolean[][] visited = new boolean[r + 2][c + 2];
 		Queue<Node> water = new LinkedList<>();
 		Deque<Swan> swan = new ArrayDeque<>();
 		Deque<Swan> swan2 = new ArrayDeque<>();
@@ -75,7 +74,6 @@ public class Main {
 				case "L":
 					swan.add(new Swan(i, j, swannum));
 					map[i][j] = swannum;
-					visited[i][j] = true;
 					swannum++;
 					water.add(new Node(i, j));
 					break;
@@ -97,55 +95,51 @@ public class Main {
 				int sy = sw.y;
 				int sn = sw.num;
 				
-				if (!visited[sx - 1][sy] && map[sx - 1][sy] == 1) {
-					visited[sx - 1][sy] = true;
+				if (map[sx - 1][sy] == 1) {
 					swan2.add(new Swan(sx - 1, sy, sn));
 					map[sx - 1][sy] = sn;
 				}
 				
-				if (!visited[sx + 1][sy] && map[sx + 1][sy] == 1) {
-					visited[sx + 1][sy] = true;
+				if (map[sx + 1][sy] == 1) {
 					swan2.add(new Swan(sx + 1, sy, sn));
 					map[sx + 1][sy] = sn;
 				}
 				
-				if (!visited[sx][sy - 1] && map[sx][sy - 1] == 1) {
-					visited[sx][sy - 1] = true;
+				if (map[sx][sy - 1] == 1) {
 					swan2.add(new Swan(sx, sy - 1, sn));
 					map[sx][sy - 1] = sn;
 				}
 				
-				if (!visited[sx][sy + 1] && map[sx][sy + 1] == 1) {
-					visited[sx][sy + 1] = true;
+				if (map[sx][sy + 1] == 1) {
 					swan2.add(new Swan(sx, sy + 1, sn));
 					map[sx][sy + 1] = sn;
 				}
 				
-				if (visited[sx - 1][sy] && map[sx - 1][sy] >= 5) {
+				if (map[sx - 1][sy] >= 5) {
 					if (sn != map[sx - 1][sy]) {
 						break exit;
 					}
 				}
 				
-				if (visited[sx + 1][sy] && map[sx + 1][sy] >= 5) {
+				if (map[sx + 1][sy] >= 5) {
 					if (sn != map[sx + 1][sy]) {
 						break exit;
 					}
 				}
 				
-				if (visited[sx][sy - 1] && map[sx][sy - 1] >= 5) {
+				if (map[sx][sy - 1] >= 5) {
 					if (sn != map[sx][sy - 1]) {
 						break exit;
 					}
 				}
 				
-				if (visited[sx][sy + 1] && map[sx][sy + 1] >= 5) {
+				if (map[sx][sy + 1] >= 5) {
 					if (sn != map[sx][sy + 1]) {
 						break exit;
 					}
 				}
 				
-				if (visited[sx][sy] && map[sx - 1][sy] == 0 || map[sx + 1][sy] == 0 || map[sx][sy - 1] == 0
+				if (map[sx - 1][sy] == 0 || map[sx + 1][sy] == 0 || map[sx][sy - 1] == 0
 						|| map[sx][sy + 1] == 0) {
 					swan.add(sw);
 				}
