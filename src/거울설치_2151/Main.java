@@ -146,14 +146,7 @@ public class Main {
 		}
 		
 		System.out.println(ans);
-//		for(int i = 1; i <= num ; i++) {
-//			for(int j = 1; j <= num ; j++) {
-//				System.out.print(map[i][j] + " ");
-//			}
-//			System.out.println();
-//		}
-//		System.out.println();
-		
+
 		
 	}
 }
