@@ -31,85 +31,209 @@ public class Main {
 	private static int ans;
 	private static boolean redarrive;
 	private static boolean bluearrive;
-	private static boolean[][][] visited;
 	
-	private static void roll(int x, int y, int count,int dir, int color) {
-		
-		if(x == holl.x && y == holl.y) {
-			if(color == 0) {
-				if(ans > count) {
-					ans = count;
-				}
-				redarrive = true;
-			}
-			else {
-				bluearrive = true;
-			}
-			return ;
-		}
-		
+	private static void start(int count,int dir) {
 		if(count > 10) {
 			return ;
 		}
+
+		redarrive = false;
+		bluearrive = false;
+	
+		int rx = red.x;
+		int ry = red.y;
+		int bx = blue.x;
+		int by = blue.y;
 		
-		visited[color][x][y] = true;
-		
-		if(!visited[color][x-1][y] && map[x-1][y] >= 3) {
-			int temp = map[x-1][y];
-			map[x-1][y] = color;
+		for(int i = 0; i < 4; i++) {
 			
-			map[x][y] = 4;
-			if(dir == 1) {
-				roll(x-1,y,count,1,color);
+			if((dir+2) % 4 == i) {
+				continue;
 			}
-			else {
-				roll(x-1,y,count+1,1,color);
+
+			roll(i);
+
+			if(redarrive && !bluearrive) {
+				if(ans > count) {
+					ans = count;
+				}
+				return;
 			}
-			map[x-1][y] = temp;
-			map[x][y] = color;
+			if(bluearrive) {
+				return;
+			}
+			if(ans < count) {
+				return;
+			}
+			start(count+1,i);
+			redarrive = false;
+			bluearrive = false;
+			red.x = rx;
+			red.y = ry;
+			blue.x = bx;
+			blue.y = by;
 		}
+	}
+
+	
+	private static void roll(int dir) {
 		
-		if(!visited[color][x+1][y] && map[x+1][y] >= 3) {
-			int temp = map[x+1][y];
-			map[x+1][y] = color;
-			map[x][y] = 4;
-			if(dir == 2) {
-				roll(x+1,y,count,2,color);
+			int x = blue.x;
+			int y = blue.y;
+			
+			if(x == holl.x && y == holl.y) {
+				bluearrive = true;
+				return;
 			}
-			else {
-				roll(x+1,y,count+1,2,color);
+			
+			switch(dir) {
+			case 0:
+				if(map[x-1][y] >= 3) {
+					if((red.x != x-1 || red.y != y) ) {
+						blue.x--;
+						roll(dir);
+					}
+					else if((red.x == x-1 && red.y == y) ) {
+						blue.x = x;
+						blue.y = y;
+					}
+				}
+				else {
+
+						blue.x = x;
+						blue.y = y;
+				}
+				break;
+			case 1:
+				if(map[x][y+1] >= 3) {
+					if((red.x != x || red.y != y+1) ) {
+						blue.y++;
+						roll(dir);
+					}
+					else if((red.x == x && red.y == y+1) ) {
+						blue.x = x;
+						blue.y = y;
+					}
+				}
+				else {
+						blue.x = x;
+						blue.y = y;
+				}
+				break;
+			case 2:
+				if(map[x+1][y] >= 3) {
+					if((red.x != x+1 || red.y != y) ) {
+						blue.x++;
+						roll(dir);
+					}
+					else if((red.x == x+1 && red.y == y) ) {
+						blue.x = x;
+						blue.y = y;
+					}
+				}
+				else {
+						blue.x = x;
+						blue.y = y;
+				}
+				break;
+			case 3:
+				if(map[x][y-1] >= 3) {
+					if((red.x != x || red.y != y-1) ) {
+						blue.y--;
+						roll(dir);
+					}
+					else if((red.x == x && red.y == y-1) ) {
+						blue.x = x;
+						blue.y = y;
+					}
+				}
+				else {
+						blue.x = x;
+						blue.y = y;
+				}
+				break;
 			}
-			map[x+1][y] = temp;
-			map[x][y] = color;
-		}
-		
-		if(!visited[color][x][y-1] && map[x][y-1] >= 3) {
-			int temp = map[x][y-1];
-			map[x][y-1] = color;
-			map[x][y] = 4;
-			if(dir == 3) {
-				roll(x,y-1,count,3,color);
+	
+			x = red.x;
+			y = red.y;
+			if(x == holl.x && y == holl.y) {
+				redarrive = true;
+				return;
 			}
-			else {
-				roll(x,y-1,count+1,3,color);
+			
+			switch(dir) {
+			case 0:
+				if(map[x-1][y] >= 3) {
+					if(blue.x != x-1 || blue.y != y) {
+						red.x--;
+						roll(dir);
+					}
+					else if ((blue.x == x-1 && blue.y == y)) {
+						red.x = x;
+						red.y = y;
+					}
+				}
+				else {
+					red.x = x;
+					red.y = y;
+
+				}
+				break;
+			case 1:
+				if(map[x][y+1] >= 3) {
+					if((blue.x != x || blue.y != y+1)) {
+						red.y++;
+						roll(dir);
+					}
+					else if((blue.x == x && blue.y == y+1)) {
+						red.x = x;
+						red.y = y;
+					}
+				}
+				else {
+						red.x = x;
+						red.y = y;
+
+				}
+				break;
+			case 2:
+				if(map[x+1][y] >= 3) {
+					if((blue.x != x+1 || blue.y != y)) {
+						red.x++;
+						roll(dir);
+					}
+					else if ((blue.x == x+1 && blue.y == y)) {
+						red.x = x;
+						red.y = y;
+					}
+				}
+				else {
+
+						red.x = x;
+						red.y = y;
+
+				}
+				break;
+			case 3:
+				if(map[x][y-1] >= 3) {
+					if((blue.x != x || blue.y != y-1)) {
+						red.y--;
+						roll(dir);
+					}
+					else if((blue.x == x && blue.y == y-1)) {
+						red.x = x;
+						red.y = y;
+					}
+				}
+				else {
+						red.x = x;
+						red.y = y;
+
+				}
+				break;
 			}
-			map[x][y-1] = temp;
-			map[x][y] = color;
-		}
-		
-		if(!visited[color][x][y+1] && map[x][y+1] >= 3) {
-			int temp = map[x][y+1];
-			map[x][y+1] = color;
-			map[x][y] = 4;
-			if(dir == 3) {
-				roll(x,y+1,count,4,color);
-			}
-			else {
-				roll(x,y+1,count+1,4,color);
-			}
-			map[x][y+1] = temp;
-			map[x][y] = color;
-		}
+
+			
 		
 	}
 	
@@ -122,7 +246,8 @@ public class Main {
 		m = Integer.parseInt(nm[1]);
 		ans = 11;
 		map = new int[n][m];
-		visited = new boolean[3][n][m];
+		redarrive = false;
+		bluearrive = false;
 		
 		for(int i = 0; i < n; i++) {
 			String[] s = br.readLine().split("");
@@ -138,34 +263,21 @@ public class Main {
 					break;
 					
 				case "R":
-					map[i][j] = 1;
+					map[i][j] = 4;
 					red = new Marble(i,j);
 					break;
 					
 				case "B":
-					map[i][j] = 2;
+					map[i][j] = 4;
 					blue = new Marble(i,j);
 					break;
 				}
 			}
 		}
-		for(int k = 0; k < 10; k++) {
-			for(int i = 1; i <= 4; i++) {
-				roll(red.x,red.y,0,i,1);
-				roll(blue.x,blue.y,0,i,2);
-				if(redarrive) {
-					if(bluearrive) {
-						ans = 11;
-					}
-					break;
-				}
-				if(bluearrive) {
-					ans = 11;
-					break;
-				}
-			}
+
+		for(int i = 0 ; i < 4; i++) {
+			start(1,i);
 		}
-		
 		
 		if(ans == 11) {
 			System.out.println("-1");
@@ -173,6 +285,5 @@ public class Main {
 		else {
 			System.out.println(ans);
 		}
-		
 	}
 }
