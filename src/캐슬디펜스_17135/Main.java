@@ -3,12 +3,14 @@ package Ä³½½µðÆæ½º_17135;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class Main {
 	
-	static class Enemy{
+	static class Enemy implements Comparable<Enemy>{
 		int x;
 		int y;
 		int dist;
@@ -22,6 +24,14 @@ public class Main {
 		@Override
 		public String toString() {
 			return "Enemy [x=" + x + ", y=" + y + ", dist=" + dist + "]";
+		}
+
+		@Override
+		public int compareTo(Enemy o) {
+			if(this.dist == o.dist) {
+				return this.y - o.y;
+			}
+			return this.dist - o.dist;
 		}
 		
 	}
@@ -41,35 +51,9 @@ public class Main {
 		for(int i = 0; i < n; i++) {
 			int success = 0;
 	
-			PriorityQueue<Enemy> pq1 = new PriorityQueue<>(new Comparator<Enemy>() {
-				@Override
-				public int compare(Enemy o1, Enemy o2) {
-					if(o1.dist == o2.dist) {
-						return o1.y - o2.y;
-					}
-					return o1.dist - o2.dist;
-				}
-			});
-			
-			PriorityQueue<Enemy> pq2 = new PriorityQueue<>(new Comparator<Enemy>() {
-				@Override
-				public int compare(Enemy o1, Enemy o2) {
-					if(o1.dist == o2.dist) {
-						return o1.y - o2.y;
-					}
-					return o1.dist - o2.dist;
-				}
-			});
-			
-			PriorityQueue<Enemy> pq3 = new PriorityQueue<>(new Comparator<Enemy>() {
-				@Override
-				public int compare(Enemy o1, Enemy o2) {
-					if(o1.dist == o2.dist) {
-						return o1.y - o2.y;
-					}
-					return o1.dist - o2.dist;
-				}
-			});
+			ArrayList<Enemy> ar1 = new ArrayList<>();
+			ArrayList<Enemy> ar2 = new ArrayList<>();
+			ArrayList<Enemy> ar3 = new ArrayList<>();
 			
 			int min1 = d;
 			int min2 = d;
@@ -79,39 +63,43 @@ public class Main {
 					int cal1 = (Math.abs(arrower - j) + Math.abs(one - k));
 					if(map[j][k] && !attacked[j][k] && min1 >= cal1) {
 						min1 = cal1;
-						pq1.add(new Enemy(j,k,cal1));
+						ar1.add(new Enemy(j,k,cal1));
 					}
 					int cal2 = (Math.abs(arrower - j) + Math.abs(two - k));
 					if(map[j][k] && !attacked[j][k] && min2 >= cal2) {
 						min2 = cal2;
-						pq2.add(new Enemy(j,k,cal2));
+						ar2.add(new Enemy(j,k,cal2));
 					}
 					int cal3 = (Math.abs(arrower - j) + Math.abs(three - k));
 					if(map[j][k] && !attacked[j][k] && min3 >= cal3) {
 						min3 = cal3;
-						pq3.add(new Enemy(j,k,cal3));
+						ar3.add(new Enemy(j,k,cal3));
 					}
 				}
 			}
-
-			if(!pq1.isEmpty()) {
-				Enemy e = pq1.poll();
+			
+			Collections.sort(ar1);
+			Collections.sort(ar2);
+			Collections.sort(ar3);
+			
+			if(!ar1.isEmpty()) {
+				Enemy e = ar1.get(0);
 				if(!attacked[e.x][e.y]) {
 					success++;
 					attacked[e.x][e.y] = true;
 				}
 			}
 			
-			if(!pq2.isEmpty()) {
-				Enemy e = pq2.poll();
+			if(!ar2.isEmpty()) {
+				Enemy e = ar2.get(0);
 				if(!attacked[e.x][e.y]) {
 					success++;
 					attacked[e.x][e.y] = true;
 				}
 			}
 			
-			if(!pq3.isEmpty()) {
-				Enemy e = pq3.poll();
+			if(!ar3.isEmpty()) {
+				Enemy e = ar3.get(0);
 				if(!attacked[e.x][e.y]) {
 					success++;
 					attacked[e.x][e.y] = true;

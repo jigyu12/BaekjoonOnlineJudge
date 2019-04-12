@@ -3,9 +3,10 @@ package 아기상어_16236;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Main {
@@ -72,7 +73,7 @@ public class Main {
 		for(int i = 0; i < cntfish; i++) {
 			int count = 0;
 
-			PriorityQueue<Shark> pq = new PriorityQueue<>();
+			ArrayList<Shark> ar = new ArrayList<>();
 			boolean[][] visited = new boolean[num+2][num+2];
 			visited[sh.x][sh.y] = true;
 			boolean eatfish = false;
@@ -90,10 +91,10 @@ public class Main {
 						if(map[sx-1][sy] > 0 && map[sx-1][sy] < ss) {
 							eatfish = true;
 							if(se + 1 == ss) {
-								pq.add(new Shark(sx-1,sy,ss+1,0));
+								ar.add(new Shark(sx-1,sy,ss+1,0));
 							}
 							else {
-								pq.add(new Shark(sx-1,sy,ss,se+1));
+								ar.add(new Shark(sx-1,sy,ss,se+1));
 							}
 						}
 						else {
@@ -106,10 +107,10 @@ public class Main {
 						if(map[sx+1][sy] > 0 && map[sx+1][sy] < ss) {
 							eatfish = true;
 							if(se + 1 == ss) {
-								pq.add(new Shark(sx+1,sy,ss+1,0));
+								ar.add(new Shark(sx+1,sy,ss+1,0));
 							}
 							else {
-								pq.add(new Shark(sx+1,sy,ss,se+1));
+								ar.add(new Shark(sx+1,sy,ss,se+1));
 							}
 						}
 						else {
@@ -122,10 +123,10 @@ public class Main {
 						if(map[sx][sy-1] > 0 && map[sx][sy-1] < ss) {
 							eatfish = true;
 							if(se + 1 == ss) {
-								pq.add(new Shark(sx,sy-1,ss+1,0));
+								ar.add(new Shark(sx,sy-1,ss+1,0));
 							}
 							else {
-								pq.add(new Shark(sx,sy-1,ss,se+1));
+								ar.add(new Shark(sx,sy-1,ss,se+1));
 							}
 						}
 						else {
@@ -138,10 +139,10 @@ public class Main {
 						if(map[sx][sy+1] > 0 && map[sx][sy+1] < ss) {
 							eatfish = true;
 							if(se + 1 == ss) {
-								pq.add(new Shark(sx,sy+1,ss+1,0));
+								ar.add(new Shark(sx,sy+1,ss+1,0));
 							}
 							else {
-								pq.add(new Shark(sx,sy+1,ss,se+1));
+								ar.add(new Shark(sx,sy+1,ss,se+1));
 							}
 						}
 						else {
@@ -155,10 +156,11 @@ public class Main {
 					qu.clear();
 				}
 			}
-			if(pq.size() == 0) {
+			if(ar.size() == 0) {
 				break;
 			}
-			sh = pq.poll();
+			Collections.sort(ar);
+			sh = ar.get(0);
 			
 			map[sh.x][sh.y] = 0;
 			qu.add(sh);

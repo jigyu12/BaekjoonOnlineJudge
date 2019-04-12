@@ -3,9 +3,11 @@ package 나무재테크_16235;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.PriorityQueue;
-import java.util.Stack;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Main {
 	
@@ -49,8 +51,8 @@ public class Main {
 		
 		int[][] map = new int[n+2][n+2];
 		int[][] nutri = new int[n+2][n+2];
-		PriorityQueue<Tree> pq = new PriorityQueue<>();
-		Stack<Tree> tree = new Stack<>();
+		
+		Queue<Tree> tree = new LinkedList<>();
 		for(int i = 0; i <= n+1; i++) {
 			Arrays.fill(nutri[i], -1);
 		}
@@ -75,11 +77,14 @@ public class Main {
 		for(int w = 1; w <= k; w++) {
 			int size = tree.size();
 			int[][] dead = new int[n+2][n+2];
+			ArrayList<Tree> ar = new ArrayList<>();
+			
 			for(int i = 0; i < size; i++) {
-				pq.add(tree.pop());
+				ar.add(tree.poll());
 			}
+			Collections.sort(ar);
 			for(int i = 0; i < size; i++) {
-				Tree t = pq.poll();
+				Tree t = ar.get(i);
 				int tx = t.x;
 				int ty = t.y;
 				int ta = t.age;
