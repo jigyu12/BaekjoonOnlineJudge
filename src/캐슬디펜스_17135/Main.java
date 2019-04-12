@@ -72,38 +72,28 @@ public class Main {
 			});
 			
 			int min1 = d;
-			for(int k = 0; k < m; k++) {
-				for(int j = arrower - 1; j >= 0; j--) {
-					int cal = (Math.abs(arrower - j) + Math.abs(one - k));
-					if(map[j][k] && !attacked[j][k] && min1 >= cal) {
-						min1 = cal;
-						pq1.add(new Enemy(j,k,cal));
-					}
-				}
-			}
-			
 			int min2 = d;
+			int min3 = d;
 			for(int k = 0; k < m; k++) {
 				for(int j = arrower - 1; j >= 0; j--) {
-					int cal = (Math.abs(arrower - j) + Math.abs(two - k));
-					if(map[j][k] && !attacked[j][k] && min2 >= cal) {
-						min2 = cal;
-						pq2.add(new Enemy(j,k,cal));
+					int cal1 = (Math.abs(arrower - j) + Math.abs(one - k));
+					if(map[j][k] && !attacked[j][k] && min1 >= cal1) {
+						min1 = cal1;
+						pq1.add(new Enemy(j,k,cal1));
+					}
+					int cal2 = (Math.abs(arrower - j) + Math.abs(two - k));
+					if(map[j][k] && !attacked[j][k] && min2 >= cal2) {
+						min2 = cal2;
+						pq2.add(new Enemy(j,k,cal2));
+					}
+					int cal3 = (Math.abs(arrower - j) + Math.abs(three - k));
+					if(map[j][k] && !attacked[j][k] && min3 >= cal3) {
+						min3 = cal3;
+						pq3.add(new Enemy(j,k,cal3));
 					}
 				}
 			}
 
-			int min3 = d;
-			for(int k = 0; k < m; k++) {
-				for(int j = arrower - 1; j >= 0; j--) {
-					int cal = (Math.abs(arrower - j) + Math.abs(three - k));
-					if(map[j][k] && !attacked[j][k] && min3 >= cal) {
-						min3 = cal;
-						pq3.add(new Enemy(j,k,cal));
-					}
-				}
-			}
-			
 			if(!pq1.isEmpty()) {
 				Enemy e = pq1.poll();
 				if(!attacked[e.x][e.y]) {
