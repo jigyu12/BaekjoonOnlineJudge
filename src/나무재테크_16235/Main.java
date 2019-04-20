@@ -3,11 +3,10 @@ package 나무재테크_16235;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Queue;
 
 public class Main {
 	
@@ -29,13 +28,7 @@ public class Main {
 
 		@Override
 		public int compareTo(Tree o) {
-			if(this.x == o.x) {
-				if(this.y == o.y) {
-					return this.age - o.age;
-				}
-				return this.y - o.y;
-			}
-			return this.x - o.x;
+			return this.age - o.age;
 		}
 
 	}
@@ -52,7 +45,7 @@ public class Main {
 		int[][] map = new int[n+2][n+2];
 		int[][] nutri = new int[n+2][n+2];
 		
-		Queue<Tree> tree = new LinkedList<>();
+		ArrayDeque<Tree> tree = new ArrayDeque<>();
 		for(int i = 0; i <= n+1; i++) {
 			Arrays.fill(nutri[i], -1);
 		}
@@ -76,13 +69,16 @@ public class Main {
 		
 		for(int w = 1; w <= k; w++) {
 			int size = tree.size();
+			
 			int[][] dead = new int[n+2][n+2];
 			ArrayList<Tree> ar = new ArrayList<>();
 			
 			for(int i = 0; i < size; i++) {
 				ar.add(tree.poll());
 			}
+			
 			Collections.sort(ar);
+			
 			for(int i = 0; i < size; i++) {
 				Tree t = ar.get(i);
 				int tx = t.x;
