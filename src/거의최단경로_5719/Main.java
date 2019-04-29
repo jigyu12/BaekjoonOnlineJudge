@@ -50,8 +50,8 @@ public class Main {
 			Node n = pq.poll();
 			for (int i = 0; i < ar[n.end].size(); i++) {
 				Node nn = ar[n.end].get(i);
-				if (dist[nn.end] > dist[n.end] + nn.cost) {
-					dist[nn.end] = dist[n.end] + nn.cost;
+				if (dist[nn.end] > n.cost + nn.cost) {
+					dist[nn.end] = n.cost + nn.cost;
 					pq.add(new Node(nn.end, dist[nn.end]));
 					path[nn.end] = n.end;
 				}
