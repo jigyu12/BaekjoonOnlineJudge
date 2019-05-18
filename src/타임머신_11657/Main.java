@@ -53,8 +53,6 @@ public class Main {
 						dist[e[j].end] = dist[e[j].start] + e[j].cost;
 					}
 				}
-				
-
 			}
 			for (int j = 0; j < e.length; j++) {
 				if (dist[e[j].start] != 987654321 && dist[e[j].end] > dist[e[j].start] + e[j].cost) {
