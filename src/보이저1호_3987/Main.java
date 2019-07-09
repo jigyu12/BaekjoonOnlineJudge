@@ -65,7 +65,9 @@ public class Main {
 		Node ans = new Node(0,0,0,0);
 		
 		for(int go = 0; go < 4; go++) {
+			
 			boolean[][][] visited = new boolean[n+2][m+2][4];
+			
 			if(voyager) {
 				break;
 			}
@@ -89,238 +91,214 @@ public class Main {
 				switch(d) {
 				
 				case 0:
-					if(map[x-1][y] > 0) {
-						switch(map[x-1][y]) {
-						case 1:
-							if(!visited[x-1][y][d]) {
-								qu.add(new Node(x-1,y,d,c+1));
-								visited[x-1][y][d] = true;
-							}
-							else {
-								voyager = true;
-								ans.dir = go;
-							}
-							break;
-							
-						case 2:
-							if(!visited[x-1][y][(d+1) % 4]) {
-								qu.add(new Node(x-1,y,(d+1) % 4,c+1));
-								visited[x-1][y][(d+1) % 4] = true;
-							}
-							else {
-								voyager = true;
-								ans.dir = go;
-							}
-							break;
-							
-						case 3:
-							if(d-1 < 0) {
-								d = 4;
-							}
-							if(!visited[x-1][y][(d-1) % 4]) {
-								qu.add(new Node(x-1,y,(d-1) % 4,c+1));
-								visited[x-1][y][(d-1) % 4] = true;
-							}
-							else {
-								voyager = true;
-								ans.dir = go;
-							}
-							break;
-						}
-					}
-					else {
+					switch(map[x-1][y]) {
+					case 0:
 						if(ans.count < c) {
 							ans.count = c;
 							ans.dir = go;
 						}
+						break;
+						
+					case 1:
+						if(!visited[x-1][y][d]) {
+							qu.add(new Node(x-1,y,d,c+1));
+							visited[x-1][y][d] = true;
+						}
+						else {
+							voyager = true;
+							ans.dir = go;
+						}
+						break;
+						
+					case 2:
+						if(!visited[x-1][y][(d+1) % 4]) {
+							qu.add(new Node(x-1,y,(d+1) % 4,c+1));
+							visited[x-1][y][(d+1) % 4] = true;
+						}
+						else {
+							voyager = true;
+							ans.dir = go;
+						}
+						break;
+						
+					case 3:
+						if(d-1 < 0) {
+							d = 4;
+						}
+						if(!visited[x-1][y][(d-1) % 4]) {
+							qu.add(new Node(x-1,y,(d-1) % 4,c+1));
+							visited[x-1][y][(d-1) % 4] = true;
+						}
+						else {
+							voyager = true;
+							ans.dir = go;
+						}
+						break;
 					}
 					break;
 					
 				case 1:
-					if(map[x][y+1] > 0) {
-						switch(map[x][y+1]) {
-						case 1:
-							if(!visited[x][y+1][d]) {
-								qu.add(new Node(x,y+1,d,c+1));
-								visited[x][y+1][d] = true;
-							}
-							else {
-								voyager = true;
-								ans.dir = go;
-							}
-							break;
-							
-						case 2:
-							if(d-1 < 0) {
-								d = 4;
-							}
-							if(!visited[x][y+1][(d-1) % 4]) {
-								qu.add(new Node(x,y+1,(d-1) % 4,c+1));
-								visited[x][y+1][(d-1) % 4] = true;
-							}
-							else {
-								voyager = true;
-								ans.dir = go;
-							}
-							break;
-							
-						case 3:
-							if(!visited[x][y+1][(d+1) % 4]) {
-								qu.add(new Node(x,y+1,(d+1) % 4,c+1));
-								visited[x][y+1][(d+1) % 4] = true;
-							}
-							else {
-								voyager = true;
-								ans.dir = go;
-							}
-							break;
-						}
-					}
-					else {
+					switch(map[x][y+1]) {
+					case 0:
 						if(ans.count < c) {
 							ans.count = c;
 							ans.dir = go;
 						}
+						break;
+						
+					case 1:
+						if(!visited[x][y+1][d]) {
+							qu.add(new Node(x,y+1,d,c+1));
+							visited[x][y+1][d] = true;
+						}
+						else {
+							voyager = true;
+							ans.dir = go;
+						}
+						break;
+						
+					case 2:
+						if(d-1 < 0) {
+							d = 4;
+						}
+						if(!visited[x][y+1][(d-1) % 4]) {
+							qu.add(new Node(x,y+1,(d-1) % 4,c+1));
+							visited[x][y+1][(d-1) % 4] = true;
+						}
+						else {
+							voyager = true;
+							ans.dir = go;
+						}
+						break;
+						
+					case 3:
+						if(!visited[x][y+1][(d+1) % 4]) {
+							qu.add(new Node(x,y+1,(d+1) % 4,c+1));
+							visited[x][y+1][(d+1) % 4] = true;
+						}
+						else {
+							voyager = true;
+							ans.dir = go;
+						}
+						break;
 					}
 					break;
 					
 				case 2:
-					if(map[x+1][y] > 0) {
-						switch(map[x+1][y]) {
-						case 1:
-							if(!visited[x+1][y][d]) {
-								qu.add(new Node(x+1,y,d,c+1));
-								visited[x+1][y][d] = true;
-							}
-							else {
-								voyager = true;
-								ans.dir = go;
-							}
-							break;
-							
-						case 2:
-							if(!visited[x+1][y][(d+1) % 4]) {
-								qu.add(new Node(x+1,y,(d+1) % 4,c+1));
-								visited[x+1][y][(d+1) % 4] = true;
-							}
-							else {
-								voyager = true;
-								ans.dir = go;
-							}
-							break;
-							
-						case 3:
-							if(d-1 < 0) {
-								d = 4;
-							}
-							if(!visited[x+1][y][(d-1) % 4]) {
-								qu.add(new Node(x+1,y,(d-1) % 4,c+1));
-								visited[x+1][y][(d-1) % 4] = true;
-							}
-							else {
-								voyager = true;
-								ans.dir = go;
-							}
-							break;
-						}
-					}
-					else {
+					switch(map[x+1][y]) {
+					case 0:
 						if(ans.count < c) {
 							ans.count = c;
 							ans.dir = go;
 						}
+						break;
+						
+					case 1:
+						if(!visited[x+1][y][d]) {
+							qu.add(new Node(x+1,y,d,c+1));
+							visited[x+1][y][d] = true;
+						}
+						else {
+							voyager = true;
+							ans.dir = go;
+						}
+						break;
+						
+					case 2:
+						if(!visited[x+1][y][(d+1) % 4]) {
+							qu.add(new Node(x+1,y,(d+1) % 4,c+1));
+							visited[x+1][y][(d+1) % 4] = true;
+						}
+						else {
+							voyager = true;
+							ans.dir = go;
+						}
+						break;
+						
+					case 3:
+						if(d-1 < 0) {
+							d = 4;
+						}
+						if(!visited[x+1][y][(d-1) % 4]) {
+							qu.add(new Node(x+1,y,(d-1) % 4,c+1));
+							visited[x+1][y][(d-1) % 4] = true;
+						}
+						else {
+							voyager = true;
+							ans.dir = go;
+						}
+						break;
 					}
 					break;
 					
 				case 3:
-					if(map[x][y-1] > 0) {
-						switch(map[x][y-1]) {
-						case 1:
-							if(!visited[x][y-1][d]) {
-								qu.add(new Node(x,y-1,d,c+1));
-								visited[x][y-1][d] = true;
-							}
-							else {
-								voyager = true;
-								ans.dir = go;
-							}
-							break;
-							
-						case 2:
-							if(d-1 < 0) {
-								d = 4;
-							}
-							if(!visited[x][y-1][(d-1) % 4]) {
-								qu.add(new Node(x,y-1,(d-1) % 4,c+1));
-								visited[x][y-1][(d-1) % 4] = true;
-							}
-							else {
-								voyager = true;
-								ans.dir = go;
-							}
-							break;
-							
-						case 3:
-							if(!visited[x][y-1][(d+1) % 4]) {
-								qu.add(new Node(x,y-1,(d+1) % 4,c+1));
-								visited[x][y-1][(d+1) % 4] = true;
-							}
-							else {
-								voyager = true;
-								ans.dir = go;
-							}
-							break;
-						}
-					}
-					else {
+					switch(map[x][y-1]) {
+					case 0:
 						if(ans.count < c) {
 							ans.count = c;
 							ans.dir = go;
 						}
+						break;
+						
+					case 1:
+						if(!visited[x][y-1][d]) {
+							qu.add(new Node(x,y-1,d,c+1));
+							visited[x][y-1][d] = true;
+						}
+						else {
+							voyager = true;
+							ans.dir = go;
+						}
+						break;
+						
+					case 2:
+						if(d-1 < 0) {
+							d = 4;
+						}
+						if(!visited[x][y-1][(d-1) % 4]) {
+							qu.add(new Node(x,y-1,(d-1) % 4,c+1));
+							visited[x][y-1][(d-1) % 4] = true;
+						}
+						else {
+							voyager = true;
+							ans.dir = go;
+						}
+						break;
+						
+					case 3:
+						if(!visited[x][y-1][(d+1) % 4]) {
+							qu.add(new Node(x,y-1,(d+1) % 4,c+1));
+							visited[x][y-1][(d+1) % 4] = true;
+						}
+						else {
+							voyager = true;
+							ans.dir = go;
+						}
+						break;
 					}
 					break;
 				}
 			}
 		}
+		switch(ans.dir) {
+		case 0:
+			System.out.println("U");
+			break;
+		case 1:
+			System.out.println("R");
+			break;
+		case 2:
+			System.out.println("D");
+			break;
+		case 3:
+			System.out.println("L");
+			break;
+		}
 		if(voyager) {
-			switch(ans.dir) {
-			case 0:
-				System.out.println("U");
-				System.out.println("Voyager");
-				break;
-			case 1:
-				System.out.println("R");
-				System.out.println("Voyager");
-				break;
-			case 2:
-				System.out.println("D");
-				System.out.println("Voyager");
-				break;
-			case 3:
-				System.out.println("L");
-				System.out.println("Voyager");
-				break;
-			}
+			System.out.println("Voyager");
 		}
 		else {
-			switch(ans.dir) {
-			case 0:
-				System.out.println("U");
-				System.out.println(ans.count);
-				break;
-			case 1:
-				System.out.println("R");
-				System.out.println(ans.count);
-				break;
-			case 2:
-				System.out.println("D");
-				System.out.println(ans.count);
-				break;
-			case 3:
-				System.out.println("L");
-				System.out.println(ans.count);
-				break;
-			}
+			System.out.println(ans.count);
 		}
 	}
 }
