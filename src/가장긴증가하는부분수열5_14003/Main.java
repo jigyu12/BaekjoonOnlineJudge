@@ -8,76 +8,69 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class Main {
+	
+	static int n;
+	static int[] parent;
+	static int[] ar;
+	static ArrayList<Integer> lis;
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-	private static int[] position;
-	private static int[] ar;
-	private static ArrayList<Integer> ans;
+	public static void main(String[] args) throws NumberFormatException, IOException {
 
-	private static int binary(int n) {
-		int start = 0;
-		int end = ans.size() - 1;
-		int mid = 0;
-
-		while (start <= end) {
-			mid = (start + end) / 2;
-			if (ans.get(mid) < n) {
-				start = mid + 1;
-			} else {
-				end = mid - 1;
+		n = Integer.parseInt(br.readLine());
+		parent = new int[n];
+		ar = new int[n];
+		lis = new ArrayList<>();
+		String[] s = br.readLine().split(" ");
+		for(int i = 0; i < n; i++) {
+			ar[i] = Integer.parseInt(s[i]);
+		}
+		lis.add(ar[0]);
+		parent[0] = 1;
+		for(int i = 1; i < n; i++) {
+			int size = lis.size() - 1;
+			int top = lis.get(size);
+			if(top < ar[i]) {
+				lis.add(ar[i]);
+				parent[i] = lis.size();
+			}
+			else {
+				int idx = binarySearch(ar[i]);
+				lis.add(idx,ar[i]);
+				parent[i] = idx + 1;
+				lis.remove(idx+1);
 			}
 		}
-		return start;
-
+		
+		int p = lis.size();
+		ArrayList<Integer> ans = new ArrayList<>();
+		for(int i = parent.length- 1 ; i >= 0 ; i--) {
+			if(parent[i] == p && p > 0) {
+				ans.add(ar[i]);
+				p--;
+			}
+		}
+		bw.write(ans.size()+"\n");
+		for(int i = ans.size() - 1 ; i >= 0  ; i--) {
+			bw.write(ans.get(i)+" ");
+		}
+		bw.flush();
 	}
-
-	public static void main(String[] args) {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		try {
-			int num = Integer.parseInt(br.readLine());
-			position = new int[num];
-			ar = new int[num];
-			ans = new ArrayList<Integer>();
-			String[] s = br.readLine().split(" ");
-			ans.add(Integer.parseInt(s[0]));
-			position[0] = 0;
-			for (int i = 0; i < num; i++) {
-				ar[i] = Integer.parseInt(s[i]);
+	
+	static int binarySearch(int v) {
+		int s = 0, e = lis.size()-1;
+		int mid = 0;
+		while(s <= e) {
+			mid = (s+e) / 2;
+			if(lis.get(mid) >= v) {
+				e = mid - 1;
 			}
-			for (int i = 1; i < num; i++) {
-				int n = ar[i];
-				if (n > ans.get(ans.size() - 1)) {
-					ans.add(n);
-					position[i] = ans.size()-1;
-				} 
-				else {
-					int k = binary(n);
-					ans.add(k, n);
-					position[i] = k;
-					ans.remove(k + 1);
-				}
+			else {
+				s = mid + 1;
 			}
-
-			StringBuilder sb = new StringBuilder();
-
-			int cal = ans.size()-1;
-			int[] fin = new int[ans.size()];
-			for (int i = num-1; i >= 0; i--) {
-				if(position[i] == cal) {
-					fin[cal] = ar[i];
-					cal--;
-				}
-				if(cal == -1) {
-					break;
-				}
-			}
-			for (int i = 0; i < fin.length; i++) {
-				sb.append(fin[i] + " ");
-			}
-			bw.write(ans.size()+"\n");
-			bw.write(sb.toString().trim()+"\n");
-			bw.flush();
-		} catch (NumberFormatException | IOException e) {
 		}
+		return s;
 	}
 }
+
