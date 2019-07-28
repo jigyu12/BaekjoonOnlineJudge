@@ -1,4 +1,4 @@
-package Ÿ�Ӹӽ�_11657;
+package 타임머신_11657;
 
 import java.io.BufferedReader;
 import java.io.IOException;

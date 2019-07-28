@@ -1,4 +1,4 @@
-package ī�״޷�_6064;
+package 카잉달력_6064;
 
 import java.math.BigInteger;
 import java.util.Scanner;

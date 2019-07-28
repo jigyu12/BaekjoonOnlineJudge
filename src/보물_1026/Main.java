@@ -1,4 +1,4 @@
-package º¸¹°_1026;
+package ë³´ë¬¼_1026;
 
 import java.util.Arrays;
 import java.util.Scanner;

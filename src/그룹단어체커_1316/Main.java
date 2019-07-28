@@ -1,4 +1,4 @@
-package �׷�ܾ�üĿ_1316;
+package 그룹단어체커_1316;
 
 import java.io.BufferedReader;
 import java.io.IOException;

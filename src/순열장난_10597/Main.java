@@ -1,4 +1,4 @@
-package ¼ø¿­Àå³­_10597;
+package ìˆœì—´ìž¥ë‚œ_10597;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

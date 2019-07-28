@@ -1,4 +1,4 @@
-package ¼öÀÇÇÕ_11720;
+package ìˆ˜ì˜í•©_11720;
 
 import java.util.Scanner;
 public class Main {

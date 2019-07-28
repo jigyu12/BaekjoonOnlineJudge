@@ -1,4 +1,4 @@
-package ġŲ���_15686;
+package 치킨배달_15686;
 
 import java.util.ArrayList;
 import java.util.Scanner;

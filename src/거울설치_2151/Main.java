@@ -1,4 +1,4 @@
-package �ſＳġ_2151;
+package 거울설치_2151;
 
 import java.io.BufferedReader;
 import java.io.IOException;

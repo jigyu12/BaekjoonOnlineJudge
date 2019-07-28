@@ -1,4 +1,4 @@
-package ��Ʈ�ι̳�_14500;
+package 테트로미노_14500;
 
 import java.util.Scanner;
 

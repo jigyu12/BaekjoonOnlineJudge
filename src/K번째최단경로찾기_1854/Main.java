@@ -1,4 +1,4 @@
-package K¹øÂ°ÃÖ´Ü°æ·ÎÃ£±â_1854;
+package Kë²ˆì§¸ìµœë‹¨ê²½ë¡œì°¾ê¸°_1854;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
+
 public class Main {
 	
 	static class Node implements Comparable<Node>{

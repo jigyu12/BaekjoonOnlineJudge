@@ -1,4 +1,4 @@
-package �ִܰ��_1573;
+package 최단경로_1573;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

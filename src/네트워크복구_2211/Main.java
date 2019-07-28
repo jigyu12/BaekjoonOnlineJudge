@@ -1,4 +1,4 @@
-package ³×Æ®¿öÅ©º¹±¸_2211;
+package ë„¤íŠ¸ì›Œí¬ë³µêµ¬_2211;
 
 import java.util.Arrays;
 import java.util.Scanner;

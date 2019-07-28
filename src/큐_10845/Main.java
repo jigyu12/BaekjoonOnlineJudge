@@ -1,4 +1,4 @@
-package ť_10845;
+package 큐_10845;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package �ű��ѼҼ�_2023;
+package 신기한소수_2023;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

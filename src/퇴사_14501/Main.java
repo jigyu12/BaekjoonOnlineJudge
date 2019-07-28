@@ -1,4 +1,4 @@
-package Επ»η_14501;
+package ν‡΄μ‚¬_14501;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package ũ�ξ�Ƽ�ƾ��ĺ�_2941;
+package 크로아티아알파벳_2941;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package ĵ��й�_3955;
+package 캔디분배_3955;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

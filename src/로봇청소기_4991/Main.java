@@ -1,4 +1,4 @@
-package �κ�û�ұ�_4991;
+package 로봇청소기_4991;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

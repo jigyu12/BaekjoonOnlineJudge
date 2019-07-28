@@ -1,4 +1,4 @@
-package ¿¬±¸¼Ò_14502;
+package ì—°êµ¬ì†Œ_14502;
 
 import java.util.ArrayList;
 import java.util.Scanner;

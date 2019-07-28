@@ -1,4 +1,4 @@
-package �ƽ�Ű�ڵ�_11654;
+package 아스키코드_11654;
 
 import java.util.Scanner;
 

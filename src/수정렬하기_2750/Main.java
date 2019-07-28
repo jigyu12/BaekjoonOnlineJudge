@@ -1,4 +1,4 @@
-package ¼öÁ¤·ÄÇÏ±â_2750;
+package ìˆ˜ì •ë ¬í•˜ê¸°_2750;
 
 import java.util.Arrays;
 import java.util.Scanner;

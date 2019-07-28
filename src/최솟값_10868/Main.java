@@ -1,4 +1,4 @@
-package �ּڰ�_10868;
+package 최솟값_10868;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

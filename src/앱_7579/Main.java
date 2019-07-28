@@ -1,4 +1,4 @@
-package ¾Û_7579;
+package ì•±_7579;
 
 import java.io.BufferedReader;
 import java.io.IOException;

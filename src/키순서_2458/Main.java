@@ -1,4 +1,4 @@
-package Å°¼ø¼­_2458;
+package í‚¤ìˆœì„œ_2458;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

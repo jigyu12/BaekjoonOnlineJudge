@@ -1,4 +1,4 @@
-package ¹ßÀü¼Ò_1102;
+package ë°œì „ì†Œ_1102;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class Main {
 		}
 
 		int state = 0;
-		// ÄÑÁø ¹ßÀü¼Ò °¹¼ö
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		String onoff = br.readLine().trim();
 		p = Integer.parseInt(br.readLine().trim());
 		for (int i = 0; i < onoff.length(); i++) {
