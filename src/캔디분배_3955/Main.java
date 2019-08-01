@@ -8,51 +8,55 @@ import java.io.OutputStreamWriter;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		try {
-			int num = Integer.parseInt(br.readLine());
-			for(int i = 0; i < num; i++) {
-				String[] kc = br.readLine().split(" ");
-				int k = Integer.parseInt(kc[0]);
-				int c = Integer.parseInt(kc[1]);
+		
+		int num = Integer.parseInt(br.readLine());
+		for(int i = 0; i < num; i++) {
+			String[] kc = br.readLine().split(" ");
+			int k = Integer.parseInt(kc[0]);
+			int c = Integer.parseInt(kc[1]);
+
+			int s1 = 1;
+			int s2 = 0;
+			int t1 = 0;
+			int t2 = 1;
+			int r1 = k;
+			int r2 = c;
+			int q = 0;
+
+			while(r2 > 0) {
+				q = r1 / r2;
+				int temp = r2;
+				r2 = r1 % r2;
+				r1 = temp;
+				temp = s2;
+				s2 = s1 - (q * s2);
+				s1 = temp;
 				
-				int[] s = new int[50];
-				int[] t = new int[50];
-				int[] r = new int[50];
-				int[] q = new int[50];
-				s[0] = 1;
-				s[1] = 0;
-				t[0] = 0;
-				t[1] = -1;
-				r[0] = c;
-				r[1] = k;
-				int index = 2;
-				while(r[index-1] >= 1) {
-					q[index] = r[index-2] / r[index-1];
-					r[index] = r[index-2] % r[index-1];
-					s[index] = s[index-2] - q[index] * s[index-1];
-					t[index] = t[index-2] - q[index] * t[index-1];
-					index++;
-				}
-				for(int j = 0; j < index; j++) {
-					System.out.print(s[j] + " ");
-				}
-				System.out.println();
-				if(k % c == 0) {
-					bw.write("IMPOSSIBLE\n");
-					continue;
-				}
-				if(s[index-1] > 0) {
-					bw.write(s[index-1]+"\n");
-				}
-				else if(s[index-1] < 0) {
-					bw.write(s[index]+"\n");
-				}
+				temp = t2;
+				t2 = t1 - (q * t2);
+				t1 = temp;
 			}
-			bw.flush();
-		} catch (NumberFormatException | IOException e) {
+			
+			if(r1 != 1) {
+				bw.write("IMPOSSIBLE\n");
+				continue;
+			}
+			
+			while(1 <= 0 || s1 >= 0) {
+				t1 += k;
+				s1 -= c;
+			}
+			
+			if(t1 > 1000000000) {
+				bw.write("IMPOSSIBLE\n");
+				continue;
+			}
+			
+			bw.write(t1+"\n");	
 		}
+		bw.flush();
 	}
 }

@@ -7,14 +7,23 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Main {
+	
+	
+	static ArrayList<Integer>[] arD = new ArrayList[501];
+	static ArrayList<Integer>[] arR = new ArrayList[501];
+	static int[][] map = new int[501][501];
+	static int end;
+	static int[] dist = new int[501];
+	static int[] parent = new int[501];
+	static PriorityQueue<Node> pq = new PriorityQueue<>();
 
-	static class Node {
+	static class Node implements Comparable<Node> {
 		int end;
 		int cost;
 
@@ -28,125 +37,107 @@ public class Main {
 			return "Node [end=" + end + ", cost=" + cost + "]";
 		}
 
-	}
-
-	private static int[] dist;
-	private static int[] path;
-	private static int[][] map;
-	private static int n;
-	private static int start;
-	private static int end;
-	private static ArrayList<Node>[] ar;
-	private static PriorityQueue<Node> pq;
-
-	private static int dijkstra(int s) {
-		int start = s;
-		Arrays.fill(path, -1);
-		Arrays.fill(dist, 987654321);
-		dist[start] = 0;
-		Node no = new Node(start, dist[start]);
-		pq.add(no);
-		while (!pq.isEmpty()) {
-			Node n = pq.poll();
-			for (int i = 0; i < ar[n.end].size(); i++) {
-				Node nn = ar[n.end].get(i);
-				if (dist[nn.end] > n.cost + nn.cost) {
-					dist[nn.end] = n.cost + nn.cost;
-					pq.add(new Node(nn.end, dist[nn.end]));
-					path[nn.end] = n.end;
-				}
-			}
+		@Override
+		public int compareTo(Node arg0) {
+			return this.cost - arg0.cost;
 		}
-		return dist[end];
+
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		try {
-			while (true) {
-				String[] nm = br.readLine().split(" ");
-				n = Integer.parseInt(nm[0]);
-				int m = Integer.parseInt(nm[1]);
-				if (n == 0 && m == 0) {
-					break;
-				}
-				String[] se = br.readLine().split(" ");
-				start = Integer.parseInt(se[0]);
-				end = Integer.parseInt(se[1]);
-				ar = new ArrayList[n];
-				dist = new int[n];
-				path = new int[n];
-				map = new int[n][n];
-				pq = new PriorityQueue<Node>(new Comparator<Node>() {
-					@Override
-					public int compare(Node arg0, Node arg1) {
-						return arg0.cost - arg1.cost;
-					}
-				});
-
-				for (int i = 0; i < n; i++) {
-					ar[i] = new ArrayList<Node>();
-				}
-
-				for (int i = 0; i < m; i++) {
-					String[] uvp = br.readLine().split(" ");
-					int u = Integer.parseInt(uvp[0]);
-					int v = Integer.parseInt(uvp[1]);
-					int p = Integer.parseInt(uvp[2]);
-					map[u][v] = p;
-					ar[u].add(new Node(v, p));
-				}
-
-				int first = dijkstra(start);
-				
-//				for (int i = 0; i < dist.length; i++) {
-//					System.out.print(dist[i] + " ");
-//				}
-//				System.out.println();
-
-				int a = end;
-				int ans = first;
-
-				Queue<Integer> qu = new LinkedList<>();
-
-				for (int i = 0; i < dist.length; i++) {
-					if(end == i) {
-						continue;
-					}
-					if (first == dist[i] + map[i][end]) {
-						qu.add(i);
-						map[i][end] = 987654321;
-					}
-				}
-				while (!qu.isEmpty()) {
-					a = end;
-					int minvertex = qu.poll();
-					while (minvertex >= 0) {
-						for (int i = 0; i < ar[minvertex].size(); i++) {
-							if (ar[minvertex].get(i).end == a) {
-								ar[minvertex].remove(i);
-								break;
-							}
-						}
-						a = minvertex;
-						minvertex = path[minvertex];
-					}
-				}
 		
-				ans = dijkstra(start);
-//				for (int i = 0; i < dist.length; i++) {
-//					System.out.print(dist[i] + " ");
-//				}
-//				System.out.println();
-				if (ans >= 987654321) {
-					bw.write("-1\n");
-				} else {
-					bw.write(ans + "\n");
+		for(int i = 0; i < 501; i++) {
+			arD[i] = new ArrayList<>();
+			arR[i] = new ArrayList<>();
+		}
+		
+		while(true) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			int n = Integer.parseInt(st.nextToken());
+			int m = Integer.parseInt(st.nextToken());
+			
+			if(n == 0 && m == 0) {
+				break;
+			}
+			
+			st = new StringTokenizer(br.readLine());
+			int s = Integer.parseInt(st.nextToken());
+			end = Integer.parseInt(st.nextToken());
+			
+			for(int i = 0; i < m; i++) {
+				st = new StringTokenizer(br.readLine());
+				int a = Integer.parseInt(st.nextToken());
+				int b = Integer.parseInt(st.nextToken());
+				int c = Integer.parseInt(st.nextToken());
+				
+				arD[a].add(b);
+				arR[b].add(a);
+				map[a][b] = c;
+			}
+			
+			Arrays.fill(dist, 987654321);
+
+			int first = Dijkstra(s);
+			pq.clear();
+			
+			Queue<Node> qu = new LinkedList<>();
+			qu.add(new Node(end,0));
+			while(!qu.isEmpty()) {
+				Node no = qu.poll();
+				
+				int e = no.end;
+				int c = no.cost;
+				int size = arR[e].size();
+				
+				for(int i = 0; i < size; i++) {
+					int son = arR[e].get(i);
+					if(dist[son] + map[son][e] + c == first) {
+						qu.add(new Node(son , map[son][e] + c));
+						map[son][e] = 987654321;
+					}
 				}
 			}
-			bw.flush();
-		} catch (IOException e) {
+			
+			Arrays.fill(dist, 987654321);
+			int second = Dijkstra(s);
+			
+			bw.write(second+"\n");
+			
+			for(int i = 0; i <= n; i++) {
+				arD[i].clear();
+				arR[i].clear();
+			}
+			pq.clear();
 		}
+		bw.flush();
+	}
+	
+	private static int Dijkstra(int start) {
+		dist[start] = 0;	
+		pq.add(new Node(start,0));
+		
+		while(!pq.isEmpty()) {
+			Node n = pq.poll();
+			if(n.cost > dist[n.end]) {
+				continue;
+			}
+			
+			if(n.end == end) {
+				return n.cost;
+			}
+			
+			for(int i = 0; i < arD[n.end].size(); i++) {
+				int nn = arD[n.end].get(i);
+				if(dist[nn] > n.cost + map[n.end][nn]) {
+					dist[nn] = n.cost + map[n.end][nn];
+					parent[nn] = n.end;
+					pq.add(new Node(nn,dist[nn]));
+				}
+			}
+		}
+		
+		return -1;
 	}
 }
