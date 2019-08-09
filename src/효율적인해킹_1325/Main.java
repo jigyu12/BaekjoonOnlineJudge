@@ -6,29 +6,33 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-
+import java.util.Arrays;
 
 public class Main {
 	
 	private static int n;
 	private static int m;
 	private static int[] count;
-	private static boolean[] visited;
+	
 	private static ArrayList<Integer> ar[];
 	
-	private static void find(int son) {
+	private static int find(int son) {
+			
+		count[son] = 0;
 		
 		int size = ar[son].size();
-
-		visited[son] = true;
 		
 		for(int i = 0; i < size; i++) {
 			int num = ar[son].get(i);
-			if(!visited[num]) {
-				find(num);
-				count[num]++;
+			if(count[num] == -1) {
+				count[son] += (find(num) + 1);
+			}
+			else {
+				count[son] += (count[num] + 1);
 			}
 		}
+
+		return count[son];
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -41,7 +45,8 @@ public class Main {
 		m = Integer.parseInt(nm[1]);
 		ar = new ArrayList[n+1];
 		count = new int[n+1];
-		visited = new boolean[n+1];
+
+		Arrays.fill(count, -1);
 		for(int i = 0; i < n+1; i++) {
 			ar[i] = new ArrayList<>();
 		}
@@ -50,25 +55,23 @@ public class Main {
 			String[] s = br.readLine().split(" ");
 			int a = Integer.parseInt(s[0]);
 			int b = Integer.parseInt(s[1]);
-			ar[a].add(b);
+			ar[b].add(a);
 		}
 		
 		
 		for(int i = 1; i <= n; i++) {
-			visited = new boolean[n+1];
-			find(i);
+			if(count[i] == -1) {
+				count[i] = find(i);
+			}
 		}
+		
 		int max = 0;
+		
 		for(int i = 1; i < count.length; i++) {
 			if(count[i] > max) {
 				max = count[i];
 			}
 		}
-//
-//		for(int i = 0; i <count.length; i++) {
-//			System.out.print(count[i] + " ");
-//		}
-//		System.out.println();
 
 		for(int i = 1; i < count.length; i++) {
 			if(count[i] == max) {
