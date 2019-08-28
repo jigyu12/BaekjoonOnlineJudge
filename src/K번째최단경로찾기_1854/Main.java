@@ -105,7 +105,6 @@ public class Main {
 					path[end].add(nc);
 					pq.add(new Node(end,nc));
 				}
-			
 			}
 		}
 	}
