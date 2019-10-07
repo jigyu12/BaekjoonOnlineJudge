@@ -25,6 +25,7 @@ public class Main {
 		}
 
 		n = Integer.parseInt(br.readLine());
+		
 		ar = new int[n];
 		
 		visited = new boolean[n+1];
