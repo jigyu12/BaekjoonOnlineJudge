@@ -3,289 +3,157 @@ package 낚시왕_17143;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Main {
-
-	static class Shark {
-		int r;
-		int c;
-		int s;
-		int d;
-		int z;
-		int num;
-
-		public Shark(int r, int c, int s, int d, int z, int num) {
-			this.r = r;
-			this.c = c;
-			this.s = s;
-			this.d = d;
-			this.z = z;
-			this.num = num;
+	
+	static class Fish{
+		int x;
+		int y;
+		int speed;
+		int dir;
+		int huge;
+		
+		public Fish(int x, int y, int speed, int dir, int huge) {
+			this.x = x;
+			this.y = y;
+			this.speed = speed;
+			this.dir = dir;
+			this.huge = huge;
 		}
 
 		@Override
 		public String toString() {
-			return "Shark [r=" + r + ", c=" + c + ", s=" + s + ", d=" + d + ", z=" + z + ", num=" + num + "]";
+			return "Fish [x=" + x + ", y=" + y + ", speed=" + speed + ", dir=" + dir + ", huge=" + huge + "]";
 		}
 
 	}
-
+	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-		String[] RCM = br.readLine().split(" ");
-		int R = Integer.parseInt(RCM[0]);
-		int C = Integer.parseInt(RCM[1]);
-		int M = Integer.parseInt(RCM[2]);
-
-		Shark[][] map = new Shark[R][C];
-		boolean[] deadshark = new boolean[M];
-
-		for (int i = 0; i < R; i++) {
-			for (int j = 0; j < C; j++) {
-				map[i][j] = new Shark(i, j, -1, -1, -1, -1);
+		
+		String[] rcm = br.readLine().split(" ");
+		
+		int r = Integer.parseInt(rcm[0]);
+		int c = Integer.parseInt(rcm[1]);
+		int m = Integer.parseInt(rcm[2]);
+		
+		int[][] prevmap = new int[r+2][c+2];
+		
+		for(int i = 0; i < r+2; i++) {
+			Arrays.fill(prevmap[i], -1);
+			if(i > 0 && i < r+1) {
+				for(int j = 1; j <= c; j++) {
+					prevmap[i][j] = 0;
+				}
 			}
 		}
-
-		Shark[] ar = new Shark[M];
-
-		for (int i = 0; i < M; i++) {
-			String[] ss = br.readLine().split(" ");
-			int r = Integer.parseInt(ss[0]) - 1;
-			int c = Integer.parseInt(ss[1]) - 1;
-			int s = Integer.parseInt(ss[2]);
-			int d = Integer.parseInt(ss[3]) - 1;
-			int z = Integer.parseInt(ss[4]);
-
-			if (d == 1) {
+		
+		Queue<Fish> qu = new LinkedList<>();
+		
+		for(int i = 0; i < m; i++) {
+			String[] rcsdh = br.readLine().split(" ");
+			int rr = Integer.parseInt(rcsdh[0]);
+			int cc = Integer.parseInt(rcsdh[1]);
+			int s = Integer.parseInt(rcsdh[2]);
+			int d = Integer.parseInt(rcsdh[3])-1;
+			if(d == 1) {
 				d = 2;
-			} else if (d == 2) {
+			}
+			else if(d == 2) {
 				d = 1;
 			}
-
-			map[r][c].s = s;
-			map[r][c].d = d;
-			map[r][c].z = z;
-			map[r][c].num = i;
-			ar[i] = new Shark(r, c, s, d, z, i);
+			int h = Integer.parseInt(rcsdh[4]);
+			qu.add(new Fish(rr,cc,s,d,h));
+			prevmap[rr][cc] = h;
 		}
+		int[] dx = {-1,0,1,0};
+		int[] dy = {0,1,0,-1};
+		
 		int ans = 0;
-		for (int i = 0; i < C; i++) {
-			for (int j = 0; j < R; j++) {
-				if (map[j][i].num > -1) {
-					ans += map[j][i].z;
-					map[j][i].s = -1;
-					map[j][i].d = -1;
-					deadshark[map[j][i].num] = true;
-					map[j][i].z = -1;
-					map[j][i].num = -1;
+		// stage 1
+		for(int i = 1; i <= c; i++) {
+			// stage 2
+			int[][] newmap = new int[r+2][c+2];
+			for(int k = 0; k < r+2; k++) {
+				Arrays.fill(newmap[k], -1);
+				if(k > 0 && k < r+1) {
+					for(int j = 1; j <= c; j++) {
+						newmap[k][j] = 0;
+					}
+				}
+			}
+			for(int j = 1; j <= r; j++) {
+				if(prevmap[j][i] > 0) {
+					ans += prevmap[j][i];
+					prevmap[j][i] = 0;
 					break;
 				}
 			}
-			Shark[][] movemap = new Shark[R][C];
-			for (int b = 0; b < R; b++) {
-				for (int j = 0; j < C; j++) {
-					movemap[b][j] = new Shark(b, j, -1, -1, -1, -1);
-				}
-			}
 
-			for (int j = 0; j < M; j++) {
-				if (!deadshark[j]) {
-					if(ar[j].d == 0) {
-						int move = ar[j].s % ((R - 1) * 2);
+			int size = qu.size();
+			for(int j = 0; j < size; j++) {
+				Fish f = qu.poll();
 
-						int x = ar[j].r;
-						int y = ar[j].c;
-						map[x][y].s = -1;
-						map[x][y].d = -1;
-						map[x][y].z = -1;
-						map[x][y].num = -1;
-
-						boolean goup = true;
-						while (move > 0) {
-							if (x == 0) {
-								goup = false;
-							} else if (x == R - 1) {
-								goup = true;
-							}
-							if (goup) {
-								x--;
-							} else {
-								x++;
-							}
-						
-							move--;
-						}
-						ar[j].r = x;
-						ar[j].c = y;
-						if(movemap[x][y].z < ar[j].z) {
-							if(movemap[x][y].num >= 0) {
-								deadshark[movemap[x][y].num] = true;
-							}
-							movemap[x][y].s = ar[j].s;
-							if (!goup) {
-								movemap[x][y].d = (ar[j].d + 2) % 4;
-							} else {
-								movemap[x][y].d = ar[j].d;
-							}
-							movemap[x][y].z = ar[j].z;
-							movemap[x][y].num = ar[j].num;
-						}
-						else {
-							deadshark[j] = true;
-						}
-					}
-					else if(ar[j].d == 1) {
-						int move = ar[j].s % ((C - 1) * 2);
-
-						int x = ar[j].r;
-						int y = ar[j].c;
-						map[x][y].s = -1;
-						map[x][y].d = -1;
-						map[x][y].z = -1;
-						map[x][y].num = -1;
-
-						boolean goright = true;
-						while (move > 0) {
-							if (y == C - 1) {
-								goright = false;
-							} else if (y == 0) {
-								goright = true;
-							}
-							if (goright) {
-								y++;
-							} else {
-								y--;
-							}
-							
-							move--;
-						}
-						ar[j].r = x;
-						ar[j].c = y;
-						if(movemap[x][y].z < ar[j].z) {
-							if(movemap[x][y].num >= 0) {
-								deadshark[movemap[x][y].num] = true;
-							}
-							movemap[x][y].s = ar[j].s;
-							if (!goright) {
-								movemap[x][y].d = (ar[j].d + 2) % 4;
-							} else {
-								movemap[x][y].d = ar[j].d;
-							}
-							movemap[x][y].z = ar[j].z;
-							movemap[x][y].num = ar[j].num;
-						}
-						else {
-							deadshark[j] = true;
-						}
-					}
-					
-					else if(ar[j].d == 2) {
-						int move = ar[j].s % ((R - 1) * 2);
-
-						int x = ar[j].r;
-						int y = ar[j].c;
-						map[x][y].s = -1;
-						map[x][y].d = -1;
-						map[x][y].z = -1;
-						map[x][y].num = -1;
-
-						boolean godown = true;
-						while (move > 0) {
-							if (x == R - 1) {
-								godown = false;
-							} else if (x == 0) {
-								godown = true;
-							}
-							if (godown) {
-								x++;
-							} else {
-								x--;
-							}
-							
-							move--;
-						}
-						ar[j].r = x;
-						ar[j].c = y;
-						if(movemap[x][y].z < ar[j].z) {
-							if(movemap[x][y].num >= 0) {
-								deadshark[movemap[x][y].num] = true;
-							}
-							movemap[x][y].s = ar[j].s;
-							if (!godown) {
-								movemap[x][y].d = (ar[j].d + 2) % 4;
-							} else {
-								movemap[x][y].d = ar[j].d;
-							}
-							movemap[x][y].z = ar[j].z;
-							movemap[x][y].num = ar[j].num;
-						}
-						else {
-							deadshark[j] = true;
-						}
-						
-					}
-					else if(ar[j].d == 3) {
-						int move = ar[j].s % ((C - 1) * 2);
-
-						int x = ar[j].r;
-						int y = ar[j].c;
-						map[x][y].s = -1;
-						map[x][y].d = -1;
-						map[x][y].z = -1;
-						map[x][y].num = -1;
-
-						boolean goleft = true;
-						while (move > 0) {
-							if (y == 0) {
-								goleft = false;
-							} else if (y == C-1) {
-								goleft = true;
-							}
-							if (goleft) {
-								y--;
-							} else {
-								y++;
-							}
-							
-							move--;
-						}
-						ar[j].r = x;
-						ar[j].c = y;
-						
-						if(movemap[x][y].z < ar[j].z) {
-							if(movemap[x][y].num >= 0) {
-								deadshark[movemap[x][y].num] = true;
-							}
-							movemap[x][y].s = ar[j].s;
-							if (!goleft) {
-								movemap[x][y].d = (ar[j].d + 2) % 4;
-							} else {
-								movemap[x][y].d = ar[j].d;
-							}
-							movemap[x][y].z = ar[j].z;
-							movemap[x][y].num = ar[j].num;
-						}
-						else {
-							deadshark[j] = true;
-						}
-					}
-				}
-			}
-			for (int o = 0; o < R; o++) {
-				for (int j = 0; j < C; j++) {
-					if(movemap[o][j].num > -1) {
-						map[o][j].s = movemap[o][j].s;
-						map[o][j].d = movemap[o][j].d;
-						map[o][j].z = movemap[o][j].z;
-						map[o][j].num = movemap[o][j].num;
-						ar[movemap[o][j].num].s = movemap[o][j].s;
-						ar[movemap[o][j].num].d = movemap[o][j].d;
-						ar[movemap[o][j].num].z = movemap[o][j].z;
-					}
+				int x = f.x;
+				int y = f.y;
+				int s = f.speed;
+				int d = f.dir;
+				int h = f.huge;
+				
+				if(prevmap[x][y] != h) {
+					continue;
 				}
 
+				int mod = 0;
+				
+				if((d % 2) == 0) {
+					mod = 2*(r-1);
+				}
+				else {
+					mod = 2*(c-1);
+				}
+				
+				s %= mod;
+				
+				if(s == 0) {
+					if(newmap[x][y] < h) {
+						newmap[x][y] = h;
+						qu.add(new Fish(x,y,s,d,h));
+					}
+					continue;
+				}
+				
+				for(int k = 0; k < s; k++) {
+					if(newmap[x+dx[d]][y+dy[d]] >= 0) {
+						if(k == s-1) {
+							if(newmap[x+dx[d]][y+dy[d]] < h) {
+								newmap[x+dx[d]][y+dy[d]] = h;
+							}
+						}
+						x+=dx[d];
+						y+=dy[d];
+					}
+					else {
+						d = (d + 2) % 4;
+						if(k == s-1) {
+							if(newmap[x+dx[d]][y+dy[d]] < h) {
+								newmap[x+dx[d]][y+dy[d]] = h;
+							}
+						}
+						x+=dx[d];
+						y+=dy[d];
+					}
+				}
+				if(newmap[x][y] == h) {
+					qu.add(new Fish(x,y,s,d,h));
+				}
 			}
+			
+			prevmap = newmap;
+
 		}
 		System.out.println(ans);
 	}

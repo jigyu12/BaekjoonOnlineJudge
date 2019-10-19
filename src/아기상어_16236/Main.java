@@ -3,169 +3,144 @@ package 아기상어_16236;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Main {
 	
-	static class Shark implements Comparable<Shark>{
+	static class Shark {
 		int x;
 		int y;
-		int size;
+		int height;
 		int eat;
+		int move;
 		
-		public Shark(int x, int y, int size, int eat) {
+		public Shark(int x, int y, int height, int eat, int move) {
 			this.x = x;
 			this.y = y;
-			this.size = size;
+			this.height = height;
 			this.eat = eat;
+			this.move = move;
+		}
+		
+	}
+	
+	static class Fish implements Comparable<Fish>{
+		int x;
+		int y;
+		int cnt;
+		
+		public Fish(int x, int y, int cnt) {
+			this.x = x;
+			this.y = y;
+			this.cnt = cnt;
 		}
 
 		@Override
-		public String toString() {
-			return "Shark [x=" + x + ", y=" + y + ", size=" + size + ", eat=" + eat + "]";
-		}
-		
-		@Override
-		public int compareTo(Shark o) {
-			if(o.x == this.x) {
+		public int compareTo(Fish o) {
+			if(this.x == o.x) {
 				return this.y - o.y;
 			}
 			return this.x - o.x;
 		}
-
 	}
 	
-	private static Shark sh;
-
+	static Shark sh;
+	
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
-		int num = Integer.parseInt(br.readLine());
-		int map[][] = new int[num+2][num+2];
-		sh = null;
-		Queue<Shark> qu = new LinkedList<>();
-		int cntfish = 0;
-		for(int i = 0; i < num+2; i++) {
-			Arrays.fill(map[i], 50);
+		int n = Integer.parseInt(br.readLine());
+		
+		int[][] map = new int[n+2][n+2];
+		for(int i = 0; i < n+2; i++) {
+			Arrays.fill(map[i], -1);
 		}
- 		for(int i = 1 ; i <= num; i++) {
+		
+		sh = new Shark(0,0,2,0,0);
+		
+		for(int i = 1; i <= n; i++) {
 			String[] s = br.readLine().split(" ");
-			for(int j = 1 ; j <= num; j++) {
-				int a = Integer.parseInt(s[j-1]);
-				if(a < 9) {
-					map[i][j] = a;
-					cntfish++;
-				}
-				else if(a == 9) {
-					sh = new Shark(i,j,2,0);
-					qu.add(sh);
+			for(int j = 1; j <= n; j++) {
+				map[i][j] = Integer.parseInt(s[j-1]);
+				if(map[i][j] == 9) {
+					sh.x = i;
+					sh.y = j;
 					map[i][j] = 0;
 				}
 			}
 		}
 		
+		Queue<Shark> qu = new LinkedList<>();
+		
+		int[] dx = {-1,0,1,0};
+		int[] dy = {0,1,0,-1};
 		int ans = 0;
 		
-		for(int i = 0; i < cntfish; i++) {
-			int count = 0;
-
-			ArrayList<Shark> ar = new ArrayList<>();
-			boolean[][] visited = new boolean[num+2][num+2];
+		boolean noFish = false;
+		while(!noFish) {
+			boolean[][] visited = new boolean[n+2][n+2];
+			PriorityQueue<Fish> pq = new PriorityQueue<>();
+			qu.add(sh);
 			visited[sh.x][sh.y] = true;
-			boolean eatfish = false;
-			while(!qu.isEmpty()) {
-
+			boolean eatFish = false;
+			while(!eatFish && !qu.isEmpty()) {
 				int size = qu.size();
-				for(int j = 0 ; j < size; j++) {
+				for(int k = 0; k < size; k++) {
 					Shark s = qu.poll();
-					int sx = s.x;
-					int sy = s.y;
-					int ss = s.size;
-					int se = s.eat;
+
+					int x = s.x;
+					int y = s.y;
+					int h = s.height;
+					int e = s.eat;
+					int m = s.move;
 					
-					if(!visited[sx-1][sy] && map[sx-1][sy] <= ss) {
-						if(map[sx-1][sy] > 0 && map[sx-1][sy] < ss) {
-							eatfish = true;
-							if(se + 1 == ss) {
-								ar.add(new Shark(sx-1,sy,ss+1,0));
+					for(int i = 0; i < 4; i++) {
+						if(map[x+dx[i]][y+dy[i]] >= 0 && !visited[x+dx[i]][y+dy[i]]) {
+							if(map[x+dx[i]][y+dy[i]] > h) {
+								continue;
+							}
+							else if(map[x+dx[i]][y+dy[i]] == h || map[x+dx[i]][y+dy[i]] == 0) {
+								qu.add(new Shark(x+dx[i],y+dy[i],h,e,m+1));
+								
 							}
 							else {
-								ar.add(new Shark(sx-1,sy,ss,se+1));
+								eatFish = true;
+								pq.add(new Fish(x+dx[i],y+dy[i],m+1));
 							}
+							visited[x+dx[i]][y+dy[i]] = true;
 						}
-						else {
-							qu.add(new Shark(sx-1,sy,ss,se));
-						}
-						visited[sx-1][sy] = true;
 					}
-					
-					if(!visited[sx+1][sy] && map[sx+1][sy] <= ss) {
-						if(map[sx+1][sy] > 0 && map[sx+1][sy] < ss) {
-							eatfish = true;
-							if(se + 1 == ss) {
-								ar.add(new Shark(sx+1,sy,ss+1,0));
-							}
-							else {
-								ar.add(new Shark(sx+1,sy,ss,se+1));
-							}
-						}
-						else {
-							qu.add(new Shark(sx+1,sy,ss,se));
-						}
-						visited[sx+1][sy] = true;
-					}
-					
-					if(!visited[sx][sy-1] && map[sx][sy-1] <= ss) {
-						if(map[sx][sy-1] > 0 && map[sx][sy-1] < ss) {
-							eatfish = true;
-							if(se + 1 == ss) {
-								ar.add(new Shark(sx,sy-1,ss+1,0));
-							}
-							else {
-								ar.add(new Shark(sx,sy-1,ss,se+1));
-							}
-						}
-						else {
-							qu.add(new Shark(sx,sy-1,ss,se));
-						}
-						visited[sx][sy-1] = true;
-					}
-					
-					if(!visited[sx][sy+1] && map[sx][sy+1] <= ss) {
-						if(map[sx][sy+1] > 0 && map[sx][sy+1] < ss) {
-							eatfish = true;
-							if(se + 1 == ss) {
-								ar.add(new Shark(sx,sy+1,ss+1,0));
-							}
-							else {
-								ar.add(new Shark(sx,sy+1,ss,se+1));
-							}
-						}
-						else {
-							qu.add(new Shark(sx,sy+1,ss,se));
-						}
-						visited[sx][sy+1] = true;
-					}
-				}
-				count++;
-				if(eatfish) {
-					qu.clear();
 				}
 			}
-			if(ar.size() == 0) {
+			
+			if(!eatFish) {
+				noFish = true;
 				break;
 			}
-			Collections.sort(ar);
-			sh = ar.get(0);
 			
-			map[sh.x][sh.y] = 0;
-			qu.add(sh);
-			ans += count;
+			if(!qu.isEmpty()) {
+				qu.clear();
+			}
+
+			Fish f = pq.poll();
+
+			pq.clear();
+			sh.x = f.x;
+			sh.y = f.y;
+			map[f.x][f.y] = 0;
+			
+			sh.eat++;
+			if(sh.height == sh.eat) {
+				++sh.height;
+				sh.eat = 0;
+			}
+			ans += f.cnt;
+
 		}
+		
 		System.out.println(ans);
 	}
 }
