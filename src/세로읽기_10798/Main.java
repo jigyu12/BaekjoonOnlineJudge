@@ -3,7 +3,6 @@ package 세로읽기_10798;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -33,9 +32,6 @@ public class Main {
 				}
 			}
 		}
-		
 		System.out.println(answer.toString());
-		
 	}
-
 }
