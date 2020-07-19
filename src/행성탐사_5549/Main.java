@@ -122,13 +122,6 @@ public class Main {
 				
 			}
 		}
-//		
-//		for(int i = 1; i <= N; i++) {
-//			for(int j = 1; j <= M; j++) {
-//				System.out.print(landCnt[i][j] + " / ");
-//			}
-//			System.out.println();
-//		}
 	}
 
 }
