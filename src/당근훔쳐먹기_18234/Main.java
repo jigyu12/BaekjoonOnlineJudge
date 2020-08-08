@@ -8,7 +8,7 @@ import java.util.Collections;
 
 public class Main {
 	
-	static class Carrot implements Comparable<Carrot>{
+	static class Carrot implements Comparable<Carrot>{ 
 		int initTaste;
 		int nutrition;
 		
